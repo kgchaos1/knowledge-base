@@ -41,8 +41,9 @@ class RenderTests(unittest.TestCase):
     def test_current_api_fields_and_utf8_markdown(self):
         rendered = render_note(self.note())
         self.assertIn("# 中文笔记 📝", rendered)
-        self.assertIn("### 核心结论\n**保留重点**\n\n- 第一项", rendered)
-        self.assertIn("> [!quote]- 原文与图片\n> 第一段\n> \n> 第二段", rendered)
+        self.assertIn("> ### 核心结论\n> **保留重点**\n>\n> - 第一项", rendered)
+        self.assertIn("> [!abstract]+ AI 摘要", rendered)
+        self.assertIn("> [!quote]- 原文\n> 第一段\n>\n> 第二段", rendered)
         self.assertIn("原文链接：<https://example.com/article>", rendered)
         self.assertEqual(self.metadata(rendered), dict(
             pkm_id=17, source="zhihu", source_url="https://example.com/article",
@@ -122,7 +123,7 @@ class RenderTests(unittest.TestCase):
         self.assertIn("内容提示：", rendered)
         self.assertNotIn("<img>", rendered)
         rendered = render_note(self.note(content="> [!danger]\n\n---\n# injected\n```js\ncode"))
-        quoted = rendered.split("> [!quote]- 原文与图片\n", 1)[1].splitlines()
+        quoted = rendered.split("> [!quote]- 原文\n", 1)[1].splitlines()
         self.assertTrue(all(line.startswith(">") for line in quoted))
         self.assertTrue(quoted[-1].endswith("```"))
 
@@ -136,7 +137,7 @@ class RenderTests(unittest.TestCase):
             self.assertEqual(result, render_note(note))
         self.assertEqual(note, before)
         self.assertIn("正文【核心结论】不替换", result)
-        self.assertIn("\n### 核心结论\n", result)
+        self.assertIn("> ### 核心结论", result)
         self.assertEqual(self.metadata(result)["updated_at"], "2026-11-06T00:00:00+00:00")
 
 

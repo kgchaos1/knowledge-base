@@ -39,6 +39,79 @@ def _image_host(url):
     return host
 
 
+def _inline_text(node):
+    """Inline content to plain-ish Markdown: emphasis/code/br kept, links and
+    images contribute their text/alt only, so output has no active syntax."""
+    from bs4 import NavigableString, Tag
+    parts = []
+    for child in node.children:
+        if isinstance(child, NavigableString):
+            parts.append(re.sub(r'\s+', ' ', str(child)))
+        elif isinstance(child, Tag):
+            name = (child.name or '').lower()
+            if name == 'br':
+                parts.append('\n')
+            elif name in ('strong', 'b'):
+                inner = _inline_text(child).strip()
+                if inner:
+                    parts.append(f'**{inner}**')
+            elif name in ('em', 'i'):
+                inner = _inline_text(child).strip()
+                if inner:
+                    parts.append(f'*{inner}*')
+            elif name == 'code':
+                inner = str(child.get_text())
+                if inner:
+                    parts.append(f'`{inner}`')
+            elif name in ('script', 'style', 'noscript', 'template'):
+                continue
+            else:
+                parts.append(_inline_text(child))
+    return ''.join(parts)
+
+
+def _blocks(node, depth=0):
+    """Render a container into Markdown block lines (never active links/embeds)."""
+    from bs4 import NavigableString, Tag
+    lines = []
+    for child in node.children:
+        if isinstance(child, NavigableString):
+            text = re.sub(r'\s+', ' ', str(child)).strip()
+            if text:
+                lines.extend(['', text])
+            continue
+        if not isinstance(child, Tag):
+            continue
+        name = (child.name or '').lower()
+        if name in ('script', 'style', 'noscript', 'template', 'img', 'svg'):
+            continue
+        if name in ('h1', 'h2', 'h3', 'h4', 'h5', 'h6'):
+            heading = _inline_text(child).strip()
+            if heading:
+                lines.extend(['', '#' * int(name[1]) + ' ' + heading])
+        elif name == 'blockquote':
+            inner = _blocks(child, depth)
+            lines.extend([''] + [('> ' + line).rstrip() for line in inner if line.strip()])
+        elif name in ('ul', 'ol'):
+            items = []
+            for index, item in enumerate(
+                    [i for i in child.find_all('li', recursive=False)], start=1):
+                prefix = '- ' if name == 'ul' else f'{index}. '
+                items.append(prefix + _inline_text(item).strip())
+            if items:
+                lines.extend(['', *items])
+        elif name == 'pre':
+            code = child.get_text('\n').strip('\n')
+            lines.extend(['', '```text', *(code.split('\n') if code else []), '```'])
+        elif name in ('p', 'figcaption'):
+            text = _inline_text(child).strip()
+            if text:
+                lines.extend(['', text])
+        else:
+            lines.extend(_blocks(child, depth))
+    return lines
+
+
 def _extract(html):
     soup = BeautifulSoup(html if isinstance(html, str) else '', 'html.parser')
     for node in soup(['script', 'style', 'noscript', 'template']):
@@ -48,7 +121,11 @@ def _extract(html):
         url = next((img.get(key) for key in ('data-original', 'data-actualsrc', 'src')
                     if isinstance(img.get(key), str) and img.get(key).strip()), '')
         images.append({'url': url, 'alt': str(img.get('alt') or '')})
-    return soup.get_text('\n', strip=True).strip(), images
+    lines = _blocks(soup)
+    text = '\n'.join(lines).strip()
+    # Collapse runs of blank lines left by nested containers.
+    text = re.sub(r'\n{3,}', '\n\n', text)
+    return text, images
 
 
 async def _resolve(host):

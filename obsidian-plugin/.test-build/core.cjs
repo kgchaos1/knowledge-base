@@ -72,13 +72,61 @@ var escapeText = (text) => text.replace(/&/g, "&amp;").replace(/</g, "&lt;").rep
 function jsonValue(value) {
   return JSON.stringify(value).replace(/[\u2028\u2029]/g, (c) => c === "\u2028" ? "\\u2028" : "\\u2029");
 }
+var INVISIBLE = /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\u200B-\u200F\u2028\u2029\u2060\uFEFF]/g;
+var INVISIBLE_CHAR = /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\u200B-\u200F\u2028\u2029\u2060\uFEFF]/;
+function sectionHeadings(text) {
+  return text.replace(/^【([^】]+)】$/gm, "### $1");
+}
+function structuralMarkdown(text) {
+  let clean = String(text ?? "").replace(/\r\n/g, "\n").replace(/\r/g, "\n").replace(INVISIBLE, "");
+  const output = [];
+  let fenceChar = null;
+  let fenceSize = 0;
+  for (const raw of clean.split("\n")) {
+    let line = raw;
+    const fence = /(`{3,}|~{3,})([^`~]*)$/.exec(line);
+    if (fence) {
+      const prefix = line.slice(0, fence.index);
+      const marker = fence[1], info = fence[2];
+      if (fenceChar === null) {
+        fenceChar = marker[0];
+        fenceSize = marker.length;
+        line = prefix + marker + "text";
+      } else if (marker[0] === fenceChar && marker.length >= fenceSize && !info.trim()) {
+        fenceChar = null;
+        line = prefix + marker;
+      } else line = prefix + marker + "text";
+    }
+    line = line.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\\/g, "&#92;").replace(/\[/g, "&#91;").replace(/\]/g, "&#93;").replace(/(`+)(\s*\$?=)/g, (m, ticks, tail) => ticks + tail.replace("=", "&#61;"));
+    output.push(line);
+  }
+  if (fenceChar !== null) output.push(fenceChar.repeat(fenceSize));
+  return output.join("\n");
+}
+function calloutLines(text) {
+  return text.split("\n").map((line) => line ? "> " + line : ">").join("\n");
+}
+function safeLink(url) {
+  if (typeof url !== "string" || !url) return null;
+  if (/\s/.test(url) || INVISIBLE_CHAR.test(url) || url.includes("\\")) return null;
+  try {
+    const parsed = new URL(url);
+    if (parsed.protocol !== "http:" && parsed.protocol !== "https:" || !parsed.hostname || parsed.username || parsed.password) return null;
+    return encodeURI(url);
+  } catch {
+    return null;
+  }
+}
 function renderNote(note, root = "PKM") {
   rootPath(root);
   const fields = { "PKM\u7F16\u53F7": note.id, "\u6807\u9898": note.title, "\u6765\u6E90": note.source ?? null, "\u539F\u6587\u5730\u5740": note.source_url ?? null, "\u6807\u7B7E": note.tags ?? [], "\u521B\u5EFA\u65F6\u95F4": note.created_at ?? null, "\u66F4\u65B0\u65F6\u95F4": note.updated_at ?? null, "\u8FDC\u7AEF\u7248\u672C": note.revision };
   const front = Object.entries(fields).map(([key, value]) => key + ": " + jsonValue(value)).join("\n");
   let result = "---\n" + front + "\n---\n\n# " + escapeText(note.title).replace(/\r?\n/g, " ") + "\n\n";
-  if (note.ai_summary) result += "## \u6458\u8981\n\n" + escapeText(note.ai_summary) + "\n\n";
-  result += "> [!quote]- \u539F\u6587\n" + escapeText(note.content).split(/\r?\n/).map((line) => "> " + line).join("\n") + "\n";
+  const link = safeLink(note.source_url);
+  if (link) result += "\u539F\u6587\u94FE\u63A5\uFF1A<" + link + ">\n\n";
+  if (note.ai_summary) result += "> [!abstract]+ AI \u6458\u8981\n" + calloutLines(structuralMarkdown(sectionHeadings(note.ai_summary))) + "\n\n";
+  const content = typeof note.content === "string" && note.content.trim() ? note.content : "\u6682\u65E0\u6B63\u6587\u3002";
+  result += "> [!quote]- \u539F\u6587\n" + calloutLines(structuralMarkdown(content)) + "\n";
   const names = /* @__PURE__ */ new Set();
   for (const image of note.images ?? []) if (image && typeof image.path === "string" && IMAGE.test(image.path)) names.add(image.path);
   if (names.size) result += "\n## \u56FE\u7247\n\n" + [...names].map((name) => "![[" + root + "/\u9644\u4EF6/" + name + "]]").join("\n\n") + "\n";

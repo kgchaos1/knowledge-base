@@ -149,18 +149,20 @@ def render_note(note: dict) -> str:
 
     lines = ["---"] + [f"{key}: {scalar(value)}"
                            for key, value in metadata.items()] + ["---", ""]
-    lines += ["# " + _literal(_single_line(title) or "无标题"), "", "## AI 摘要", ""]
-    summary = _text(note.get("ai_summary"))
-    summary = _SECTION.sub(lambda m: "### " + m[1].strip(), summary)
-    summary, summary_images = _markdown(summary if summary.strip() else "暂无摘要。")
-    lines += [summary, ""]
-    if metadata["ai_stale"]:
-        lines += ["> 摘要可能已过期，请重新生成。", ""]
+    lines += ["# " + _literal(_single_line(title) or "无标题"), ""]
     url = _source_link(note.get("source_url"))
     if url:
         lines += [f"原文链接：<{url}>", ""]
     elif note.get("source_url"):
         lines += ["> 警告：不安全的原文链接已禁用。", ""]
+    lines += ["> [!abstract]+ AI 摘要"]
+    summary = _text(note.get("ai_summary"))
+    summary = _SECTION.sub(lambda m: "### " + m[1].strip(), summary)
+    summary, summary_images = _markdown(summary if summary.strip() else "暂无摘要。")
+    lines += [("> " + line).rstrip() for line in summary.split("\n")]
+    lines += [""]
+    if metadata["ai_stale"]:
+        lines += ["> 摘要可能已过期，请重新生成。", ""]
 
     content = _text(note.get("content"))
     body, body_images = _markdown(content if content.strip() else "暂无正文。")
@@ -177,9 +179,9 @@ def render_note(note: dict) -> str:
     content_warning = _text(note.get("content_warning"))
     if content_warning.strip():
         lines += ["> 内容提示：" + _literal(_single_line(content_warning)), ""]
-    lines += ["> [!quote]- 原文与图片"]
-    lines += ["> " + line for line in body.split("\n")]
+    lines += ["> [!quote]- 原文"]
+    lines += [("> " + line).rstrip() for line in body.split("\n")]
     if local_images:
-        lines += [">", "> ### 本地图片"]
-        lines += [f"> ![[附件/{filename}]]" for filename in local_images]
+        lines += ["", "## 图片", ""]
+        lines += [f"![[附件/{filename}]]" for filename in local_images]
     return "\n".join(lines) + "\n"

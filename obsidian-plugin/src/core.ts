@@ -68,14 +68,63 @@ function validateIndex(i: any): asserts i is Index {
 }
 const escapeText = (text: string): string => text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/([\\`*_{}\[\]()!#|~])/g, '\\$1');
 function jsonValue(value: unknown): string { return JSON.stringify(value).replace(/[\u2028\u2029]/g, c => c === '\u2028' ? '\\u2028' : '\\u2029'); }
+/** Strip control/format chars (Cc/Cf approximation) while keeping \n and \t. */
+const INVISIBLE = /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\u200B-\u200F\u2028\u2029\u2060\uFEFF]/g;
+const INVISIBLE_CHAR = /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\u200B-\u200F\u2028\u2029\u2060\uFEFF]/;
+function sectionHeadings(text: string): string { return text.replace(/^【([^】]+)】$/gm, '### $1'); }
+/**
+ * Preserve passive structural Markdown (headings, lists, emphasis, fences) from
+ * untrusted content while making active syntax visibly literal: raw HTML,
+ * autolinks and Markdown/wiki links become inert entities, every fence is
+ * normalized to a passive "text" language, and unbalanced fences are closed.
+ * Mirrors backend obsidian_adapter/render.py _markdown().
+ */
+function structuralMarkdown(text: string): string {
+  let clean = String(text ?? '').replace(/\r\n/g, '\n').replace(/\r/g, '\n').replace(INVISIBLE, '');
+  const output: string[] = [];
+  let fenceChar: string | null = null;
+  let fenceSize = 0;
+  for (const raw of clean.split('\n')) {
+    let line = raw;
+    const fence = /(`{3,}|~{3,})([^`~]*)$/.exec(line);
+    if (fence) {
+      const prefix = line.slice(0, fence.index);
+      const marker = fence[1], info = fence[2];
+      if (fenceChar === null) { fenceChar = marker[0]; fenceSize = marker.length; line = prefix + marker + 'text'; }
+      else if (marker[0] === fenceChar && marker.length >= fenceSize && !info.trim()) { fenceChar = null; line = prefix + marker; }
+      else line = prefix + marker + 'text';
+    }
+    line = line.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/\\/g, '&#92;').replace(/\[/g, '&#91;').replace(/\]/g, '&#93;')
+      .replace(/(`+)(\s*\$?=)/g, (m, ticks, tail) => ticks + tail.replace('=', '&#61;'));
+    output.push(line);
+  }
+  if (fenceChar !== null) output.push(fenceChar.repeat(fenceSize));
+  return output.join('\n');
+}
+/** Quote every line (blank lines as bare ">") so the result works inside a callout. */
+function calloutLines(text: string): string { return text.split('\n').map(line => line ? '> ' + line : '>').join('\n'); }
+/** Same-origin-safe external link check: only plain http(s) URLs with a host. */
+function safeLink(url: unknown): string | null {
+  if (typeof url !== 'string' || !url) return null;
+  if (/\s/.test(url) || INVISIBLE_CHAR.test(url) || url.includes('\\')) return null;
+  try {
+    const parsed = new URL(url);
+    if ((parsed.protocol !== 'http:' && parsed.protocol !== 'https:') || !parsed.hostname || parsed.username || parsed.password) return null;
+    return encodeURI(url);
+  } catch { return null; }
+}
 /** User-supplied HTML/Markdown is text, never executable HTML or a remote embed. */
 export function renderNote(note: any, root = 'PKM'): string {
   rootPath(root);
   const fields: Record<string, unknown> = { 'PKM编号': note.id, '标题': note.title, '来源': note.source ?? null, '原文地址': note.source_url ?? null, '标签': note.tags ?? [], '创建时间': note.created_at ?? null, '更新时间': note.updated_at ?? null, '远端版本': note.revision };
   const front = Object.entries(fields).map(([key, value]) => key + ': ' + jsonValue(value)).join('\n');
   let result = '---\n' + front + '\n---\n\n# ' + escapeText(note.title).replace(/\r?\n/g, ' ') + '\n\n';
-  if (note.ai_summary) result += '## 摘要\n\n' + escapeText(note.ai_summary) + '\n\n';
-  result += '> [!quote]- 原文\n' + escapeText(note.content).split(/\r?\n/).map((line: string) => '> ' + line).join('\n') + '\n';
+  const link = safeLink(note.source_url);
+  if (link) result += '原文链接：<' + link + '>\n\n';
+  if (note.ai_summary) result += '> [!abstract]+ AI 摘要\n' + calloutLines(structuralMarkdown(sectionHeadings(note.ai_summary))) + '\n\n';
+  const content = typeof note.content === 'string' && note.content.trim() ? note.content : '暂无正文。';
+  result += '> [!quote]- 原文\n' + calloutLines(structuralMarkdown(content)) + '\n';
   const names = new Set<string>();
   for (const image of note.images ?? []) if (image && typeof image.path === 'string' && IMAGE.test(image.path)) names.add(image.path);
   if (names.size) result += '\n## 图片\n\n' + [...names].map(name => '![[' + root + '/附件/' + name + ']]').join('\n\n') + '\n';

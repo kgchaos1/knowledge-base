@@ -44,7 +44,8 @@ test('Chinese Markdown, safe escaping, stable file and last index; unchanged syn
   const f = fixture(); const counts = await f.sync(); assert.equal(counts.created, 1);
   const text = await f.vault.read('PKM/笔记/pkm-1.md');
   assert.match(text, /标题: "中文标题"/); assert.match(text, /\[!quote\]- 原文/); assert.match(text, /&lt;script&gt;/); assert(!text.includes('![](https'));
-  assert(text.indexOf('## 摘要') < text.indexOf('原文\n'));
+  assert.match(text, /\[!abstract\]\+ AI 摘要/);
+  assert(text.indexOf('[!abstract]') < text.indexOf('[!quote]'));
   assert.equal(f.vault.writes.at(-1), 'PKM/.pkm/index.json');
   f.state.calls = []; await f.sync(); assert(!f.state.calls.some(c => c.method === 'POST'));
 });
