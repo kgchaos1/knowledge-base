@@ -1,0 +1,78 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# 环境变量
+.env
+.env.local
+
+# 数据库
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+
+# 数据目录
+data/
+backups/
+pkm-backup/
+
+# 日志
+*.log
+logs/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Docker
+.docker/
+
+# 临时文件
+tmp/
+temp/
+*.tmp
+
+# 测试
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Node.js (如果后续添加前端构建)
+node_modules/
+npm-debug.log
+yarn-error.log
+dist/
+.cache/
+
+# Local SDKs, test environments, private credentials and release artifacts
+.tooling/
+.venv-test/
+.local/
+PKM-login-private.txt
+ip-release-state.json
+PKM-Obsidian-*.zip

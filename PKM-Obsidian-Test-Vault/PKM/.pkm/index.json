@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "notes": {
+    "1": {
+      "revision": "864b7f4fd0afa93d47ab7a37f2dd3d64969dde61fbd3554274d8be349f61cfa9",
+      "hash": "45a8cb439b534633f70dd162ded56e29b41f1dce13193f7269d3994493c4a88e"
+    },
+    "2": {
+      "revision": "0be1adbd3f079df230aa8dc3fccf6ae269e0c7138423bfd284219d1c288ed1c2",
+      "hash": "93f78718231fba20bb68711fb5bb9ac053ae9c9ddf7b794e185e9bbe7b787a1f"
+    },
+    "3": {
+      "revision": "30c6c49fa869162493a22ba0e118c42bbf8e2208db4efa819b9a9734d49aa0b8",
+      "hash": "97350b4111243651db3632f7a6060bb1ff19d7ea0600a8188ebe0b0c31eaea02"
+    }
+  }
+}

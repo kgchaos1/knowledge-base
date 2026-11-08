@@ -1,0 +1,225 @@
+{
+  "main": {
+    "id": "f4227418b230039d",
+    "type": "split",
+    "children": [
+      {
+        "id": "7cd32a26bb467785",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "6a4549058550e6fe",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {},
+              "icon": "lucide-file",
+              "title": "新标签页"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "06e0824a7339a15b",
+    "type": "split",
+    "children": [
+      {
+        "id": "a998608c063f89fb",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "d773bf5c035287c9",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-folder-closed",
+              "title": "文件列表"
+            }
+          },
+          {
+            "id": "adcd6eae5a5bc736",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "搜索"
+            }
+          },
+          {
+            "id": "d09d1f21757e340b",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-bookmark",
+              "title": "书签"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "5b769862315e5ad5",
+    "type": "split",
+    "children": [
+      {
+        "id": "ca317bd650cf96c9",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "ba1307bc4467c59f",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "PKM/笔记/pkm-3.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "反向链接"
+            }
+          },
+          {
+            "id": "96808ef766b3b38e",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "PKM/笔记/pkm-3.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "出链"
+            }
+          },
+          {
+            "id": "155ec03f9b4e3576",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "标签"
+            }
+          },
+          {
+            "id": "1c0b3d887716ab6d",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "添加笔记属性"
+            }
+          },
+          {
+            "id": "a3d7560bde412ec9",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "PKM/笔记/pkm-3.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "大纲"
+            }
+          },
+          {
+            "id": "693c417ff1b1dbfa",
+            "type": "leaf",
+            "state": {
+              "type": "file-properties",
+              "state": {
+                "file": "PKM/笔记/pkm-3.md"
+              },
+              "icon": "lucide-info",
+              "title": "笔记属性"
+            }
+          }
+        ],
+        "currentTab": 1
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:打开快速切换": false,
+      "graph:查看关系图谱": false,
+      "canvas:新建白板": false,
+      "daily-notes:打开/创建今天的日记": false,
+      "templates:插入模板": false,
+      "command-palette:打开命令面板": false,
+      "bases:新建数据库": false,
+      "pkm-connector:PKM 同步": false
+    }
+  },
+  "active": "d773bf5c035287c9",
+  "lastOpenFiles": [
+    "PKM/笔记/pkm-2.md",
+    "PKM/笔记/pkm-1.md",
+    "PKM/笔记/pkm-3.md",
+    "PKM/附件/ee5b3f4cd1ebcff85dc806cf7fab6f172cc027e2566618b629d8a5285590708a.jpg",
+    "PKM/附件/d906e924a30eec4dc45d6fc10d7a36f07abbb98c050707a06bae84f0395c9d01.jpg",
+    "PKM/附件/c3c1ba2de3a2100764e82525501d5a86dd778dbe97c674cd506bdf4ef9d220a8.jpg",
+    "PKM/附件/9d3f1f5a951df4c4ed7300423ed265b80942a0a0e740b9c5bba326213e69d419.jpg",
+    "PKM/附件/300c72f7acebb6298c51f9593cd29f9c91e47382256728e9e47172d4c8598227.jpg",
+    "PKM/附件/0696f1d40ab16604a1c55c842cec9bfbc6666b733cb689ed301bab5b4d05b7e8.jpg",
+    "PKM/附件",
+    "PKM/笔记",
+    "PKM",
+    "笔记/pkm-2.md",
+    "笔记/pkm-3.md",
+    "笔记/pkm-1.md",
+    "PKM/笔记/pkm-3.md",
+    "说明.md",
+    "2026-11-06.md",
+    "未命名.canvas",
+    "未命名.base",
+    "附件/9d3f1f5a951df4c4ed7300423ed265b80942a0a0e740b9c5bba326213e69d419.jpg"
+  ]
+}

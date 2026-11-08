@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>知存 · 个人知识库</title>
+<style>
+:root{font-family:system-ui,-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;color:#24352f;background:#f3f6f4;font-size:16px;line-height:1.6;--brand:#17684b;--border:#d8e3dc}
+*{box-sizing:border-box}body{margin:0}button,input{font:inherit}button{cursor:pointer;border:1px solid var(--border);border-radius:9px;padding:9px 16px;background:white;color:#24352f}button:hover:not(:disabled){background:#eaf3ee;border-color:#17684b}button:disabled{opacity:.55;cursor:not-allowed}.primary{background:var(--brand);color:white;border-color:var(--brand)}.primary:hover:not(:disabled){background:#105137;color:white}.danger{color:#a13232}input{width:100%;min-width:0;border:1px solid #9aafa1;border-radius:8px;padding:10px 12px;background:white;color:#24352f}input:focus,button:focus-visible,a:focus-visible{outline:3px solid #80bca3;outline-offset:3px}label{display:block;font-weight:600;margin-bottom:6px}h1,h2,h3,p{margin:0 0 12px}h1{font-size:26px;letter-spacing:1px}h2{font-size:21px}h3{font-size:18px}a{color:#17684b;overflow-wrap:anywhere}small,.muted{color:#52665b;font-size:14px}.shell{max-width:1160px;margin:auto;padding:28px 24px}.topbar,.row{display:flex;gap:12px;align-items:center;justify-content:space-between}.row.wrap{flex-wrap:wrap}.brand-note{font-size:14px;color:#52665b}.panel{background:white;border:1px solid var(--border);border-radius:16px;padding:24px;margin-top:20px}.notice{border-left:4px solid #81ab91;background:#eaf2ed;padding:13px 16px;border-radius:7px;font-size:14px}.message{white-space:pre-wrap;overflow-wrap:anywhere;background:#e8f2ed;padding:12px 16px;border-radius:8px;margin:16px 0}.message.error{background:#fff0ed;color:#922e21}.tabs{display:flex;gap:8px;margin-top:24px;border-bottom:1px solid var(--border);padding-bottom:12px}.tabs button[aria-selected="true"]{background:var(--brand);color:white}.form-grid{display:grid;grid-template-columns:1fr 2fr;gap:16px}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}.list{display:grid;gap:14px;margin-top:20px}.card{border:1px solid var(--border);border-radius:12px;padding:18px;min-width:0;overflow-wrap:anywhere}.card p:last-child{margin-bottom:0}.title-button{font-weight:650;font-size:18px;padding:0;border:0;background:none;text-align:left;color:#155c43}.title-button:hover:not(:disabled){background:none;text-decoration:underline}.excerpt{white-space:pre-wrap;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;font-size:14px}.badge{display:inline-block;border-radius:20px;background:#edf2ef;padding:2px 10px;font-size:12px;margin:2px 4px 2px 0}.task{background:#f4f7f5;border-radius:8px;margin-top:14px;padding:12px;font-size:14px;white-space:pre-wrap;overflow-wrap:anywhere}.empty{text-align:center;padding:36px 10px;color:#52665b}.search{display:flex;gap:10px}.search input{flex:1}.pagination{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:24px}.login{max-width:460px;margin:9vh auto}.login input{margin-bottom:16px}.login button{width:100%}.detail-text{white-space:pre-wrap;overflow-wrap:anywhere}.detail-section{margin-top:22px;border-top:1px solid var(--border);padding-top:18px}dialog{width:min(860px,calc(100% - 24px));max-height:90vh;border:1px solid var(--border);border-radius:16px;padding:24px;color:#24352f}dialog::backdrop{background:#142c2280}.footer{margin:24px 0;text-align:center;color:#52665b;font-size:13px}[hidden]{display:none!important}
+@media(max-width:640px){.shell{padding:18px 14px}.panel{padding:18px}.form-grid{grid-template-columns:1fr}.topbar{align-items:flex-start}h1{font-size:23px}.search{flex-wrap:wrap}.search input{flex-basis:100%}.row{align-items:flex-start}.pagination{gap:10px}.login{margin:4vh auto}.card{padding:14px}dialog{padding:18px}.topbar button{white-space:nowrap}}
+.checkbox-label{display:flex;align-items:center;gap:8px;margin-top:16px}.checkbox-label input{width:auto}.note-images{display:grid;gap:16px}.note-images img{display:block;max-width:100%;height:auto}.note-images figure{margin:0}.note-images figcaption{overflow-wrap:anywhere}
+.detail-header{position:sticky;top:-24px;z-index:1;background:white;padding:12px 0;border-bottom:1px solid var(--border);align-items:flex-start}.detail-header h2{min-width:0;overflow-wrap:anywhere;max-height:5em;overflow:auto}.detail-header button{flex-shrink:0}.note-selection{margin:0 0 10px;font-weight:400}.detail-footer{display:flex;justify-content:flex-end;margin-top:20px}@media(max-width:640px){.detail-header{top:-18px}}
+.summary-card{background:#edf5ef;border:1px solid #bdd6c4;border-radius:12px;padding:20px;margin:18px 0}.markdown-summary{white-space:normal;overflow-wrap:anywhere}.markdown-summary h3,.markdown-summary h4{margin:18px 0 8px;color:#174f39}.markdown-summary p{white-space:pre-wrap}.markdown-summary ul,.markdown-summary ol{padding-left:26px;margin:10px 0}.markdown-summary code{background:#dce9df;border-radius:4px;padding:2px 5px;white-space:pre-wrap}.source-ai-setting{background:#edf5ef;border:1px solid #bdd6c4;border-radius:10px;padding:12px;margin-top:14px}.source-ai-setting label{margin:0}.source-ai-setting p{margin:6px 0 0}#original-details{border-top:1px solid var(--border);margin-top:18px;padding-top:14px}#original-details>summary{cursor:pointer;font-weight:650;padding:8px 0}#original-details[open]>summary{margin-bottom:12px}
+select{font:inherit;max-width:100%;border:1px solid #9aafa1;border-radius:8px;padding:10px 12px;background:white;color:#24352f}select:focus-visible{outline:3px solid #80bca3;outline-offset:3px}select:disabled{opacity:.55}.source-sync-setting{border:1px solid var(--border);border-radius:10px;padding:12px;margin-top:14px}.source-sync-setting label{margin-bottom:6px}.source-sync-setting .checkbox-label{margin-top:0}
+</style>
+</head>
+<body>
+<div class="shell">
+<header class="topbar"><div><h1>知存 · 个人知识库</h1><p class="brand-note">把收藏变成可检索、可阅读的知识。</p></div><button id="logout" hidden>退出登录</button></header>
+<p id="temporary-http-warning" class="notice" hidden>临时 HTTP 模式：连接未加密，登录密码和会话可能被截获。请勿复用其他账号密码、上传隐私或在此输入平台 Cookie / API 密钥。</p>
+<div id="message" class="message" role="status" aria-live="polite" hidden></div>
+<section id="login-panel" class="panel login">
+<h2>登录你的知识库</h2><p class="muted">使用服务器设置的访问密码。登录凭证由同源会话管理，不在浏览器本地存储密码或令牌。</p>
+<p id="transport-warning" class="notice" hidden>为保护密码，请使用 HTTPS 或在 localhost 本机访问。当前连接不允许输入或提交密码。</p>
+<form id="login-form"><label for="password">访问密码</label><input id="password" type="password" autocomplete="current-password" required disabled><button id="login-submit" class="primary" disabled>登录</button></form>
+</section>
+<main id="app" hidden>
+<nav class="tabs" role="tablist" aria-label="知识库导航"><button id="tab-notes" role="tab" aria-selected="true" aria-controls="notes-panel">我的笔记</button><button id="tab-sources" role="tab" aria-selected="false" aria-controls="sources-panel" tabindex="-1">数据源</button><button id="tab-backups" role="tab" aria-selected="false" aria-controls="backups-panel" tabindex="-1">备份</button><button id="tab-devices" role="tab" aria-selected="false" aria-controls="devices-panel" tabindex="-1">设备</button></nav>
+<section id="notes-panel" class="panel" role="tabpanel" aria-labelledby="tab-notes">
+<div class="row wrap"><div><h2>我的笔记</h2><p class="muted">搜索标题和正文，每页最多 100 篇。</p></div><button id="ai-test">测试 AI 连接</button></div>
+<p class="notice">来源可能提供全文或摘录，不保证完整正文；请通过原文链接核对。手动 AI 整理会先确认；数据源自动 AI 默认关闭，开启后同步会将正文发送给第三方模型服务，可能收费。测试 AI 只发送服务器固定测试文本，不发送收藏正文。</p>
+<form id="search-form" class="search" style="margin-top:18px"><input id="search" type="search" aria-label="搜索标题和正文" placeholder="搜索标题或正文…"><button class="primary" type="submit">搜索</button><button id="notes-refresh" type="button">刷新</button></form>
+<div class="actions" aria-label="当前页批量操作"><button id="notes-select-all" type="button">全选当前页</button><button id="notes-clear-selection" type="button">取消选择</button><button id="notes-delete-selected" class="danger" type="button" disabled>批量永久删除（0）</button><span id="notes-selection-status" class="muted" role="status">已选 0 篇（仅当前页）</span></div>
+<p id="notes-status" class="muted" role="status" style="margin-top:14px"></p><div id="notes-list" class="list"></div>
+<div class="pagination"><button id="previous">上一页</button><span id="page-label"></span><button id="next">下一页</button></div>
+</section>
+<section id="sources-panel" class="panel" role="tabpanel" aria-labelledby="tab-sources" hidden>
+<div class="row wrap"><div><h2>数据源</h2><p class="muted">粘贴收藏夹链接，按需同步到你的知识库。</p></div><button id="sources-refresh">刷新 / 恢复任务跟踪</button></div>
+<p class="notice">目前仅支持知乎来源。只需收藏夹链接，无需用户 ID；访问凭证由服务器预配置，此版不提供 Cookie 输入。删除数据源会保留已导入的笔记。「同步并补全」也会尝试补全旧摘录；补全失败会保留已有正文，不强行覆盖，也不保证能获取全文。</p>
+<form id="source-form" style="margin-top:20px"><h3 id="source-form-title">添加知乎收藏夹</h3><div class="form-grid"><div><label for="source-name">名称（选填）</label><input id="source-name" maxlength="200" placeholder="例如：产品与设计"></div><div><label for="source-url">收藏夹链接</label><input id="source-url" type="url" required placeholder="https://www.zhihu.com/collection/123456" autocomplete="off"></div></div><label class="checkbox-label" for="source-auto-ai"><input id="source-auto-ai" type="checkbox" aria-describedby="source-auto-ai-warning">同步后自动 AI 整理（默认关闭）</label><p id="source-auto-ai-warning" class="muted">开启后，笔记正文会发送给服务器配置的第三方 AI 服务，可能产生费用。</p><div class="source-sync-setting"><label class="checkbox-label" for="source-sync-enabled"><input id="source-sync-enabled" type="checkbox" aria-describedby="source-sync-warning">启用定时同步（默认关闭）</label><label for="source-sync-interval">同步间隔</label><select id="source-sync-interval"><option value="60">每 1 小时</option><option value="360">每 6 小时</option><option value="720">每 12 小时</option><option value="1440" selected>每天（24 小时）</option><option value="10080">每 7 天</option></select><p id="source-sync-warning" class="muted">仅在后端服务器运行期间执行定时采集；服务器停止时不会执行。暂停定时同步不取消当前任务。自动 AI 独立设置且默认关闭，若已开启则可能产生第三方 AI 费用。</p></div><div class="actions"><button id="source-save" class="primary" type="submit">添加数据源</button><button id="source-cancel" type="button" hidden>取消编辑</button></div></form>
+<form id="file-import-form" class="card" style="margin-top:24px" aria-labelledby="file-import-heading"><h3 id="file-import-heading">导入 Markdown/文本文件</h3><p id="file-import-help" class="muted">支持 UTF-8 编码的 .md、.markdown、.txt，单个文件最大 2 MiB。不支持压缩包或本地图片自动上传；远程图片只是文本，不会备份。导入不会发送原文给 AI，可保存后在笔记卡片手动整理。笔记不关联数据源，在全部客户端的笔记范围内可见。</p><label for="file-import-file">选择文件</label><input id="file-import-file" type="file" accept=".md,.markdown,.txt" aria-describedby="file-import-help"><div class="actions"><button id="file-import-preview" type="submit">预览文件信息</button></div><div id="file-import-result" hidden style="margin-top:16px"><p id="file-import-meta" class="muted"></p><label for="file-import-title">笔记标题</label><input id="file-import-title" maxlength="500" required disabled><p id="file-import-warning" class="notice" hidden></p><div class="actions"><button id="file-import-commit" type="button" class="primary" disabled>确认保存为笔记</button></div></div><p id="file-import-status" class="muted" role="status" aria-live="polite" style="margin-top:14px"></p></form>
+<form id="bookmark-import-form" class="card" style="margin-top:24px" aria-labelledby="bookmark-import-heading"><h3 id="bookmark-import-heading">导入浏览器书签 HTML</h3><p id="bookmark-import-help" class="muted">可从 Chrome / Edge 书签管理器导出书签 HTML，再选择 UTF-8 编码的 .html 或 .htm 文件（最大 2 MiB，最多 1000 条）。仅保存标题和链接，不是网页全文；不会自动访问链接、下载图片或调用 AI。导入的笔记不关联数据源，全部客户端均可在「我的笔记」查看。</p><label for="bookmark-import-file">选择书签 HTML 文件</label><input id="bookmark-import-file" type="file" accept=".html,.htm" aria-describedby="bookmark-import-help"><div class="actions"><button id="bookmark-import-preview" type="submit">预览书签</button><button id="bookmark-import-cancel" type="button">取消 / 清空</button></div><div id="bookmark-import-result" hidden style="margin-top:16px"><p id="bookmark-import-meta" class="muted"></p><p class="muted">仅显示前 20 条标题、URL 和文件夹，均为文本，不会自动打开链接。</p><div id="bookmark-import-items" class="list"></div><div class="actions"><button id="bookmark-import-commit" type="button" class="primary" disabled>确认导入链接笔记</button></div></div><p id="bookmark-import-status" class="muted" role="status" aria-live="polite" style="margin-top:14px"></p></form>
+<p id="sources-status" class="muted" role="status" style="margin-top:16px"></p><div id="sources-list" class="list"></div>
+</section>
+<section id="backups-panel" class="panel" role="tabpanel" aria-labelledby="tab-backups" hidden>
+<div class="row wrap"><div><h2>备份</h2><p class="muted">服务器备份包含数据库和图片，不包含服务器 .env。备份文件含个人内容，请妥善保管。</p></div><div class="actions"><button id="backup-create" class="primary" type="button" disabled>创建备份</button><button id="backups-refresh" type="button">刷新 / 恢复跟踪</button></div></div>
+<p class="notice">关闭浏览器后，服务器备份仍会运行。这里设置的是服务器定时备份，不代表已配置电脑自动任务。下载使用同源登录会话，由浏览器决定保存位置；网页不能直接写入 D 盘。电脑默认目录 D:\PKM备份 需通过本地助手选择，本网页不会替你配置本地助手。</p>
+<section class="card" aria-labelledby="operations-heading" style="margin-top:20px"><div class="row wrap"><h3 id="operations-heading">运维状态</h3><button id="operations-refresh" type="button">刷新运维状态</button></div><p class="muted">进入备份页或点击刷新时读取；不会自动轮询运维状态。</p><p id="operations-status" class="muted" role="status" aria-live="polite">尚未加载。</p><div id="operations-summary"></div></section>
+<p class="notice">恢复预演只在临时目录恢复备份副本并检查数据库，不覆盖线上数据；本页不提供一键覆盖恢复。</p>
+<form id="backup-settings-form" style="margin-top:20px"><h3>服务器定时设置</h3><p class="muted">默认每日北京时间 02:00，保留 7 份；以下以服务器读取的实际设置为准。</p><label class="checkbox-label"><input id="backup-enabled" type="checkbox" disabled>启用服务器每日备份</label><div class="form-grid"><div><label for="backup-hour">北京时间小时（0–23）</label><input id="backup-hour" type="number" min="0" max="23" step="1" required disabled></div><div><label for="backup-keep">保留份数（3–30）</label><input id="backup-keep" type="number" min="3" max="30" step="1" required disabled></div></div><div class="actions"><button id="backup-save" type="submit" disabled>保存备份设置</button></div></form>
+<p id="backup-schedule" class="muted" style="margin-top:14px"></p><p id="backups-status" class="muted" role="status" aria-live="polite"></p><div id="backups-list" class="list"></div>
+</section>
+<section id="devices-panel" class="panel" role="tabpanel" aria-labelledby="tab-devices" hidden>
+<div class="row wrap"><div><h2>设备</h2><p class="muted">生成配对码供本地助手连接，或撤销已连接设备。</p></div><button id="devices-refresh" type="button">刷新设备</button></div>
+<p id="pairing-warning" class="notice">配对码 10 分钟内单次有效，仅显示在本页面内存中，刷新即消失。HTTP 会明文传输配对码与设备凭证，请慎用，优先使用 HTTPS 或可信本机连接。请勿分享配对码。</p>
+<form id="device-pairing-form" style="margin-top:20px"><label for="device-name">设备名称</label><input id="device-name" required maxlength="200" autocomplete="off" placeholder="例如：我的电脑" aria-describedby="pairing-warning"><div class="actions"><button id="device-pair" class="primary" type="submit">生成配对码</button></div></form>
+<div id="pairing-result" class="message" role="status" aria-live="polite" hidden><p>配对码：<strong id="pairing-code"></strong></p><p id="pairing-expires" class="muted"></p></div>
+<p id="devices-status" class="muted" role="status" aria-live="polite" style="margin-top:16px"></p><div id="devices-list" class="list"></div>
+</section>
+</main>
+<p class="footer">内容归你掌握 · 同源连接 · 无第三方页面依赖</p>
+</div>
+<dialog id="note-dialog" aria-labelledby="detail-title"><div class="row detail-header"><h2 id="detail-title">笔记详情</h2><button id="detail-close" aria-label="关闭笔记详情">关闭</button></div><p id="detail-meta" class="muted"></p><section class="detail-section summary-card" aria-label="AI 摘要"><h3>AI 摘要</h3><p id="detail-ai-status" class="muted"></p><p class="muted">支持标题、段落、列表、加粗和行内代码；HTML、链接及图片语法仅显示为文本。</p><div id="detail-summary" class="markdown-summary"></div></section><div id="detail-link"></div><details id="original-details"><summary>展开原文与图片</summary><p class="notice">以下为来源返回的正文，可能是全文或摘录，不保证完整性。正文中的 HTML 仅显示为文本。</p><p id="detail-quality" class="muted"></p><p id="detail-warning" class="notice" hidden></p><div id="detail-content" class="detail-text detail-section"></div><div id="detail-images" class="note-images detail-section" aria-label="已保存的正文图片"></div></details><div id="detail-tags" class="actions"></div><p id="detail-feedback" class="muted" role="status" style="margin-top:12px"></p><div class="detail-footer"><button id="detail-close-bottom" type="button">关闭详情</button></div></dialog>
+<script>
+'use strict';
+const API_BASE = '/api';
+const PAGE_SIZE = 100;
+const POLL_LIMIT = 60; // At most 60 rounds, ~5 minutes per entry. Re-enter/refresh to resume.
+const POLL_DELAY = 5000;
+const $ = id => document.getElementById(id);
+$('temporary-http-warning').hidden = location.protocol !== 'http:';
+const state = { authenticated:false, epoch:0, tab:'notes', page:0, search:'', sources:[], tasks:new Map(), busySources:new Set(), editing:null, note:null, notes:[], selectedNotes:new Set(), batchDeleting:false, notesLoading:false, processing:new Set(), deleting:new Set(), notesRequest:0, sourcesRequest:0, detailRequest:0, pollGeneration:0, pollTimer:null, sourceSaving:false };
+const backupState = {generation:0,timer:null,request:0,creating:false,saving:false,running:null,verifying:new Set(),rehearsing:new Set(),rehearsalButtons:new Map()};
+const operationsState = {request:0,busy:false};
+const deviceState = {request:0,devices:[],pairing:false,revoking:new Set()};
+const fileImportState = {request:0,busy:false,preview:null,file:null};
+const bookmarkImportState = {request:0,busy:false,preview:null,file:null};
+const TAB_NAMES = ['notes','sources','backups','devices'];
+const text = value => value == null ? '' : String(value);
+const active = task => task && ['pending','running'].includes(task.status);
+function element(tag, value, className) { const node=document.createElement(tag); if(value!==undefined) node.textContent=text(value); if(className) node.className=className; return node; }
+function message(value, error=false) { $('message').textContent=text(value); $('message').classList.toggle('error',error); $('message').hidden=!value; }
+function report(error) { if(error.name!=='SessionExpired' && state.authenticated) message(error.message || '操作失败，请稍后重试。',true); }
+function securePasswordContext() { return location.origin==='http://8.133.220.164:8091' || location.protocol==='https:' || (location.protocol==='http:' && ['localhost','127.0.0.1','[::1]','::1'].includes(location.hostname)); }
+function safeURL(value) { try { const url=new URL(text(value)); return ['http:','https:'].includes(url.protocol) ? url.href : null; } catch { return null; } }
+function addLink(container, value, label) { const url=safeURL(value); if(!url) return; const a=element('a',label||value); a.href=url; a.target='_blank'; a.rel='noopener noreferrer'; container.append(a); }
+function aiStatus(note) { return note.ai_stale?'旧 AI 摘要待更新':note.ai_processed?'AI 已处理':'AI 未处理'; }
+function contentQuality(note) {
+ const labels={full:'全文',excerpt:'摘录',link:'仅链接',unknown:'未知'};
+ const status=Object.hasOwn(labels,note.content_status)?labels[note.content_status]:labels.unknown;
+ const count=value=>Number.isSafeInteger(value)&&value>=0?String(value):'未知';
+ return `正文完整度：${status} · 图片总数：${count(note.image_total)} · 图片失败：${count(note.image_failed)}`;
+}
+function attachmentURL(path) { return typeof path==='string'&&/^[a-f0-9]{64}\.(?:jpg|jpeg|png|gif|webp)(?![\s\S])/.test(path)?'/api/attachments/'+encodeURIComponent(path):null; }
+function renderImages(note) {
+ $('detail-images').replaceChildren();
+ for(const image of Array.isArray(note.images)?note.images:[]) {
+  const src=attachmentURL(image?.path);if(!src)continue;
+  const figure=element('figure');const img=element('img');img.src=src;img.loading='lazy';img.alt=text(image.alt);
+  figure.append(img);if(image.alt)figure.append(element('figcaption',image.alt,'muted'));$('detail-images').append(figure);
+ }
+}
+// Deliberately limited Markdown: never parse HTML or create remote links/images.
+function renderInline(container, value) {
+ const pattern=/!?\[[^\]\n]*\]\([^\n]*?\)|<[^>\n]*>|`([^`\n]+)`|\*\*([^*\n]+)\*\*/g;
+ let end=0;
+ for(const match of value.matchAll(pattern)) {
+  if(match.index>end)container.append(element('span',value.slice(end,match.index)));
+  container.append(element(match[1]!==undefined?'code':match[2]!==undefined?'strong':'span',match[1]??match[2]??match[0]));
+  end=match.index+match[0].length;
+ }
+ if(end<value.length)container.append(element('span',value.slice(end)));
+}
+function renderSummary(value) {
+ const container=$('detail-summary');container.replaceChildren();
+ let paragraph=[],list=null,listTag='';
+ const flush=()=>{if(paragraph.length){const p=element('p');renderInline(p,paragraph.join('\n'));container.append(p);paragraph=[];}};
+ for(const line of text(value||'暂无 AI 摘要').replace(/\r\n?/g,'\n').split('\n')) {
+  const heading=line.match(/^\s{0,3}(#{1,6})\s+(.+?)\s*#*\s*$/);
+  const legacy=line.match(/^\s*【([^】]+)】\s*$/);
+  const item=line.match(/^\s*(?:([-+*])\s+|(\d+)[.)]\s+)(.*)$/);
+  if(!line.trim()){flush();list=null;listTag='';continue;}
+  if(heading||legacy){flush();list=null;listTag='';const h=element(heading?.[1].length===1?'h3':'h4');renderInline(h,heading?heading[2]:'【'+legacy[1]+'】');container.append(h);continue;}
+  if(item){flush();const tag=item[1]?'ul':'ol';if(!list||listTag!==tag){list=element(tag);listTag=tag;container.append(list);}const li=element('li');renderInline(li,item[3]);list.append(li);continue;}
+  list=null;listTag='';paragraph.push(line);
+ }
+ flush();
+}
+function date(value) { if(!value) return '尚未同步'; const d=new Date(value); return Number.isNaN(d.getTime())?'时间未知':d.toLocaleString('zh-CN'); }
+function syncDate(value) {const raw=text(value);const utc=/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/.test(raw)&&!/(?:Z|[+-]\d{2}:?\d{2})$/i.test(raw)?raw+'Z':raw;const d=new Date(utc);return Number.isNaN(d.getTime())?'时间未知':d.toLocaleString('zh-CN')+'（本地时间）';}
+function stopPolling() { state.pollGeneration++; clearTimeout(state.pollTimer); state.pollTimer=null; }
+function showLogin(reason='') {
+ operationsState.request++;operationsState.busy=false;$('operations-refresh').disabled=false;$('operations-summary').replaceChildren();$('operations-status').textContent='尚未加载。';
+ resetFileImport(true);resetBookmarkImport(true);
+ deviceState.request++; deviceState.devices=[]; clearPairing(); $('devices-list').replaceChildren(); $('devices-status').textContent=''; $('device-name').value='';
+ state.authenticated=false; state.epoch++; stopPolling(); stopBackupPolling(); backupState.request++; backupState.running=null; backupState.rehearsalButtons.clear(); $('backups-list').replaceChildren(); $('backup-settings-form').reset(); $('backup-schedule').textContent=''; $('backups-status').textContent=''; setBackupSettingsDisabled(true); $('backup-create').disabled=true; state.tasks.clear(); state.sources=[]; state.notes=[]; state.selectedNotes.clear(); state.note=null; state.editing=null;
+ $('app').hidden=true; $('logout').hidden=true; $('login-panel').hidden=false; $('password').value=''; $('notes-list').replaceChildren(); $('sources-list').replaceChildren();
+ if($('note-dialog').open) $('note-dialog').close(); resetSourceForm();
+ const safe=securePasswordContext(); $('password').disabled=!safe; $('login-submit').disabled=!safe; $('transport-warning').hidden=safe;
+ if(reason) message(reason,true);
+}
+async function api(path, options={}) {
+ const epoch=state.epoch; const controller=new AbortController(); const timeout=setTimeout(()=>controller.abort(),45000);
+ try {
+  const response=await fetch(API_BASE+path,{...options,credentials:'same-origin',cache:'no-store',signal:controller.signal,headers:{...(options.body && !(options.body instanceof FormData)?{'Content-Type':'application/json'}:{}),...options.headers}});
+  if(epoch!==state.epoch) throw Object.assign(new Error('会话已变更'),{name:'SessionExpired'});
+  if(response.status===401) { showLogin('请登录后继续（会话可能已过期）。'); throw Object.assign(new Error('未登录或密码不正确'),{name:'SessionExpired'}); }
+  let data=null; if(response.status!==204) { const raw=await response.text(); if(raw) { try {data=JSON.parse(raw);} catch { if(response.ok) throw new Error('服务器返回格式异常。'); } } }
+  if(!response.ok) { const detail=data?.detail; const description=typeof detail==='string'?detail:typeof detail?.message==='string'?detail.message:typeof data?.message==='string'?data.message:`请求失败（HTTP ${response.status}）`; throw new Error(description); }
+  return data;
+ } catch(error) { if(error.name==='AbortError') throw new Error('请求超时。提交结果可能已生效，请刷新确认后再试。'); throw error; }
+ finally {clearTimeout(timeout);}
+}
+function updateFileImport() {
+ const busy=fileImportState.busy;
+ $('file-import-file').disabled=busy;
+ $('file-import-preview').disabled=busy;
+ $('file-import-preview').textContent=busy?'正在处理…':'预览文件信息';
+ $('file-import-title').disabled=busy||!fileImportState.preview;
+ $('file-import-commit').disabled=busy||!fileImportState.preview||!$('file-import-title').value.trim();
+}
+function resetFileImport(clearFile=false) {
+ fileImportState.request++;fileImportState.busy=false;fileImportState.preview=null;fileImportState.file=null;
+ $('file-import-result').hidden=true;$('file-import-meta').textContent='';$('file-import-title').value='';
+ $('file-import-warning').textContent='';$('file-import-warning').hidden=true;$('file-import-status').textContent='';
+ if(clearFile)$('file-import-file').value='';
+ updateFileImport();
+}
+function selectedImportFile() {
+ const file=$('file-import-file').files?.[0];
+ if(!file)throw new Error('请先选择 Markdown 或文本文件。');
+ if(!/\.(?:md|markdown|txt)$/i.test(file.name))throw new Error('仅支持 .md、.markdown、.txt 文件，不支持压缩包。');
+ if(!Number.isSafeInteger(file.size)||file.size>2*1024*1024||file.size<0)throw new Error('文件大小不得超过 2 MiB。');
+ return file;
+}
+$('file-import-file').addEventListener('change',()=>resetFileImport());
+$('file-import-title').addEventListener('input',updateFileImport);
+$('file-import-form').addEventListener('submit',async event=>{
+ event.preventDefault();if(!state.authenticated||fileImportState.busy)return;
+ resetFileImport();
+ let file;try{file=selectedImportFile();}catch(error){$('file-import-status').textContent=error.message;return;}
+ const request=++fileImportState.request;fileImportState.busy=true;updateFileImport();$('file-import-status').textContent='正在读取文件信息（不会发送给 AI）…';
+ try {
+  const body=new FormData();body.append('file',file);
+  const data=await api('/file-import/preview',{method:'POST',body});
+  if(request!==fileImportState.request||!state.authenticated)return;
+  if(!data||typeof data.title!=='string'||typeof data.filename!=='string'||typeof data.format!=='string'||typeof data.content_hash!=='string'||!Number.isSafeInteger(data.chars)||data.chars<0)throw new Error('文件预览响应格式异常，请重试。');
+  fileImportState.preview=data;fileImportState.file=file;
+  $('file-import-title').value=data.title;
+  $('file-import-meta').textContent=`文件：${data.filename} · 格式：${data.format} · 字符数：${data.chars}`;
+  $('file-import-warning').textContent=data.images_remote_warning?'检测到图片引用：远程图片只是文本，不会备份；本地图片不会自动上传。':'';
+  $('file-import-warning').hidden=!data.images_remote_warning;
+  $('file-import-result').hidden=false;$('file-import-status').textContent='预览完成，尚未保存。请核对标题和字符数，再确认保存。';
+ }catch(error){if(request===fileImportState.request&&state.authenticated)$('file-import-status').textContent='预览失败：'+(error.message||'请重试。');}
+ finally{if(request===fileImportState.request){fileImportState.busy=false;updateFileImport();}}
+});
+$('file-import-commit').addEventListener('click',async()=>{
+ if(!state.authenticated||fileImportState.busy||!fileImportState.preview)return;
+ let file;try{file=selectedImportFile();}catch(error){resetFileImport();$('file-import-status').textContent=error.message;return;}
+ if(file!==fileImportState.file){resetFileImport();$('file-import-status').textContent='文件已变更，请重新预览。';return;}
+ const title=$('file-import-title').value.trim();if(!title){$('file-import-status').textContent='请输入笔记标题。';return;}
+ const request=++fileImportState.request;fileImportState.busy=true;updateFileImport();$('file-import-status').textContent='正在保存，请勿重复提交…';
+ try {
+  const body=new FormData();body.append('file',file);body.append('title',title);
+  const data=await api('/file-import/commit',{method:'POST',body});
+  if(request!==fileImportState.request||!state.authenticated)return;
+  if(!data||!['imported','duplicate'].includes(data.status)||data.note_id==null||typeof data.title!=='string'||!Number.isSafeInteger(data.characters)||data.characters<0)throw new Error('服务器保存结果格式异常，请刷新笔记确认后再试。');
+  resetFileImport(true);
+  $('file-import-status').textContent=data.status==='duplicate'?`重复内容：已有笔记「${data.title}」（${data.characters} 字符），未新增笔记。`:`已保存笔记「${data.title}」（${data.characters} 字符）。全部客户端均可在「我的笔记」查看；未关联数据源，未调用 AI。`;
+  state.page=0;state.search='';$('search').value='';await loadNotes();
+ }catch(error){if(request===fileImportState.request&&state.authenticated)$('file-import-status').textContent='保存失败：'+(error.message||'请刷新笔记确认后重试。');}
+ finally{if(request===fileImportState.request){fileImportState.busy=false;updateFileImport();}}
+});
+function updateBookmarkImport() {
+ const busy=bookmarkImportState.busy;
+ $('bookmark-import-file').disabled=busy;$('bookmark-import-preview').disabled=busy;
+ $('bookmark-import-preview').textContent=busy?'正在处理…':'预览书签';
+ $('bookmark-import-commit').disabled=busy||!bookmarkImportState.preview||bookmarkImportState.preview.valid===0;
+}
+function resetBookmarkImport(clearFile=false) {
+ bookmarkImportState.request++;bookmarkImportState.busy=false;bookmarkImportState.preview=null;bookmarkImportState.file=null;
+ $('bookmark-import-result').hidden=true;$('bookmark-import-meta').textContent='';$('bookmark-import-items').replaceChildren();$('bookmark-import-status').textContent='';
+ if(clearFile)$('bookmark-import-file').value='';updateBookmarkImport();
+}
+function selectedBookmarkFile() {
+ const file=$('bookmark-import-file').files?.[0];
+ if(!file)throw new Error('请先选择浏览器书签 HTML 文件。');
+ if(!/\.(?:html|htm)$/i.test(file.name))throw new Error('仅支持 .html 或 .htm 书签文件。');
+ if(!Number.isSafeInteger(file.size)||file.size<0||file.size>2*1024*1024)throw new Error('文件大小不得超过 2 MiB。');
+ return file;
+}
+const bookmarkCount=value=>Number.isSafeInteger(value)&&value>=0&&value<=1000;
+$('bookmark-import-file').addEventListener('change',()=>resetBookmarkImport());
+$('bookmark-import-cancel').addEventListener('click',()=>resetBookmarkImport(true));
+$('bookmark-import-form').addEventListener('submit',async event=>{
+ event.preventDefault();if(!state.authenticated||bookmarkImportState.busy)return;
+ resetBookmarkImport();let file;try{file=selectedBookmarkFile();}catch(error){$('bookmark-import-status').textContent=error.message;return;}
+ const request=++bookmarkImportState.request;bookmarkImportState.busy=true;updateBookmarkImport();$('bookmark-import-status').textContent='正在预览书签（不访问链接，不调用 AI）…';
+ try {
+  const body=new FormData();body.append('file',file);const data=await api('/bookmark-import/preview',{method:'POST',body});
+  if(request!==bookmarkImportState.request||!state.authenticated)return;
+  if(!data||typeof data.filename!=='string'||typeof data.content_hash!=='string'||!data.content_hash||!['total','valid','skipped','duplicates_in_file'].every(key=>bookmarkCount(data[key]))||!Array.isArray(data.items)||data.items.length>20||!data.items.every(item=>item&&['title','url','folder'].every(key=>typeof item[key]==='string')))throw new Error('书签预览响应格式异常，请重试。');
+  bookmarkImportState.preview=data;bookmarkImportState.file=file;
+  $('bookmark-import-meta').textContent=`文件：${data.filename} · 总计：${data.total} · 有效：${data.valid} · 跳过：${data.skipped} · 文件内重复：${data.duplicates_in_file}`;
+  for(const item of data.items){const card=element('div',undefined,'card');card.append(element('p',item.title),element('p',item.url),element('p','文件夹：'+item.folder,'muted'));$('bookmark-import-items').append(card);}
+  $('bookmark-import-result').hidden=false;$('bookmark-import-status').textContent=data.valid?'预览完成，尚未保存。核对计数与链接后确认导入；实际导入和重复数量以服务器保存结果为准。':'没有可导入的有效书签，尚未保存。';
+ }catch(error){if(request===bookmarkImportState.request&&state.authenticated)$('bookmark-import-status').textContent='预览失败：'+(error.message||'请重试。');}
+ finally{if(request===bookmarkImportState.request){bookmarkImportState.busy=false;updateBookmarkImport();}}
+});
+$('bookmark-import-commit').addEventListener('click',async()=>{
+ if(!state.authenticated||bookmarkImportState.busy||!bookmarkImportState.preview||!bookmarkImportState.preview.valid)return;
+ let file;try{file=selectedBookmarkFile();}catch(error){resetBookmarkImport();$('bookmark-import-status').textContent=error.message;return;}
+ if(file!==bookmarkImportState.file){resetBookmarkImport();$('bookmark-import-status').textContent='文件已变更，请重新预览。';return;}
+ const preview=bookmarkImportState.preview;
+ if(!confirm(`确认导入「${preview.filename}」的链接笔记？预览有效 ${preview.valid} 条，实际导入数量由服务器去重后确定。仅保存链接，不保存网页全文，不访问链接、不下载图片、不调用 AI；全部客户端均可查看，未关联数据源。`))return;
+ const request=++bookmarkImportState.request;bookmarkImportState.busy=true;updateBookmarkImport();$('bookmark-import-status').textContent='正在导入，请勿重复提交…';
+ try {
+  const body=new FormData();body.append('file',file);body.append('content_hash',preview.content_hash);
+  const data=await api('/bookmark-import/commit',{method:'POST',body});if(request!==bookmarkImportState.request||!state.authenticated)return;
+  if(!data||!['imported','duplicates','skipped','total'].every(key=>bookmarkCount(data[key]))||!Array.isArray(data.note_ids))throw new Error('服务器导入结果格式异常，请刷新笔记确认后再试。');
+  resetBookmarkImport(true);$('bookmark-import-status').textContent=`导入完成：新增 ${data.imported} 条 · 重复 ${data.duplicates} 条 · 跳过 ${data.skipped} 条 · 总计 ${data.total} 条。全部客户端可在「我的笔记」查看链接笔记；未关联数据源，未调用 AI。`;
+  state.page=0;state.search='';$('search').value='';await loadNotes();
+ }catch(error){if(request===bookmarkImportState.request&&state.authenticated)$('bookmark-import-status').textContent='导入失败：'+(error.message||'请刷新笔记确认后重试。');}
+ finally{if(request===bookmarkImportState.request){bookmarkImportState.busy=false;updateBookmarkImport();}}
+});
+async function enterApp() {
+ await api('/auth/me'); state.authenticated=true; $('login-panel').hidden=true; $('app').hidden=false; $('logout').hidden=false; message('');
+ await Promise.all([loadNotes(),loadSources()]);
+}
+$('login-form').addEventListener('submit',async event=>{
+ event.preventDefault(); if(!securePasswordContext() || $('login-submit').disabled) return;
+ $('login-submit').disabled=true; const password=$('password').value; $('password').value=''; message('正在验证…');
+ try { await api('/auth/login',{method:'POST',body:JSON.stringify({password})}); await enterApp(); }
+ catch(error) { message(error.name==='SessionExpired'?'登录失败或会话失效，请检查密码。':error.message,true); }
+ finally { $('login-submit').disabled=!securePasswordContext(); }
+});
+$('logout').addEventListener('click',async()=>{ $('logout').disabled=true; try {await api('/auth/logout',{method:'POST'}); showLogin(); message('已安全退出。');} catch(error){report(error);} finally{$('logout').disabled=false;} });
+function switchTab(tab) {
+ if(state.batchDeleting)return;
+ state.tab=tab;
+ for(const name of TAB_NAMES) { $('tab-'+name).setAttribute('aria-selected',String(name===tab)); $('tab-'+name).tabIndex=name===tab?0:-1; $(name+'-panel').hidden=name!==tab; }
+ stopPolling(); stopBackupPolling(); if(tab==='sources') loadSources(); else if(tab==='backups') {loadBackups();loadOperations();} else if(tab==='devices') loadDevices(); else loadNotes();
+}
+for(const name of TAB_NAMES) { $('tab-'+name).addEventListener('click',()=>switchTab(name)); $('tab-'+name).addEventListener('keydown',event=>{if(['ArrowLeft','ArrowRight','Home','End'].includes(event.key)){event.preventDefault();const index=TAB_NAMES.indexOf(name);const next=event.key==='Home'?TAB_NAMES[0]:event.key==='End'?TAB_NAMES.at(-1):TAB_NAMES[(index+(event.key==='ArrowRight'?1:TAB_NAMES.length-1))%TAB_NAMES.length];switchTab(next);$('tab-'+next).focus();}}); }
+async function loadNotes() {
+ if(state.batchDeleting)return;
+ state.selectedNotes.clear();state.notes=[];state.notesLoading=true;renderNotes();
+ const request=++state.notesRequest; $('notes-status').textContent='正在加载笔记…'; $('previous').disabled=true; $('next').disabled=true;
+ const params=new URLSearchParams({skip:String(state.page*PAGE_SIZE),limit:String(PAGE_SIZE)}); if(state.search)params.set('search',state.search);
+ try {
+  const data=await api('/notes/?'+params); if(request!==state.notesRequest || !state.authenticated)return;
+  if(!Array.isArray(data?.items))throw new Error('笔记列表格式异常。');
+  const total=Number(data.total)||0;
+  if(state.page>0 && !data.items.length){state.page=Math.max(0,Math.ceil(total/PAGE_SIZE)-1);return loadNotes();}
+  $('notes-list').replaceChildren(); $('notes-status').textContent=`共 ${total} 篇${state.search?'匹配笔记':'笔记'}`;
+  if(!data.items.length)$('notes-list').append(element('p',state.search?'没有找到匹配笔记，请更换关键词。':'还没有笔记。到「数据源」添加知乎收藏夹并同步。','empty'));
+  state.notes=data.items.slice(0,PAGE_SIZE);
+  state.notesLoading=false;renderNotes();
+  $('page-label').textContent=`第 ${state.page+1} / ${Math.max(1,Math.ceil(total/PAGE_SIZE))} 页`;
+  $('previous').disabled=state.page===0; $('next').disabled=(state.page+1)*PAGE_SIZE>=total;
+ } catch(error) { if(request===state.notesRequest){$('notes-status').textContent='加载失败，请点击刷新重试。';report(error);} }
+ finally {if(request===state.notesRequest){state.notesLoading=false;updateSelection();}}
+}
+function currentSelection() {return [...new Set(state.notes.slice(0,PAGE_SIZE).map(note=>note.id))].filter(id=>state.selectedNotes.has(id));}
+function updateSelection() {
+ const ids=currentSelection();state.selectedNotes=new Set(ids);
+ const busy=state.batchDeleting||state.notesLoading;
+ $('notes-select-all').disabled=busy||!state.notes.length;
+ $('notes-clear-selection').disabled=busy||!ids.length;
+ $('notes-delete-selected').disabled=busy||!ids.length||state.processing.size>0||state.deleting.size>0;
+ $('notes-delete-selected').textContent=state.batchDeleting?'正在批量删除…':`批量永久删除（${ids.length}）`;
+ $('notes-selection-status').textContent=`已选 ${ids.length} 篇（仅当前页）`;
+}
+$('notes-select-all').addEventListener('click',()=>{if(state.batchDeleting||state.notesLoading)return;state.selectedNotes=new Set(state.notes.slice(0,PAGE_SIZE).map(note=>note.id));renderNotes();});
+$('notes-clear-selection').addEventListener('click',()=>{if(state.batchDeleting)return;state.selectedNotes.clear();renderNotes();});
+$('notes-delete-selected').addEventListener('click',deleteSelectedNotes);
+async function deleteSelectedNotes() {
+ if(!state.authenticated||state.batchDeleting||state.notesLoading||state.processing.size||state.deleting.size)return;
+ const ids=currentSelection();if(!ids.length)return;
+ if(!confirm(`永久删除当前页选中的 ${ids.length} 篇笔记？正文、标签和 AI 摘要将被永久删除，不进入回收站且不可恢复；专属图片一并清理，共享图片保留。历史备份不会清除，再次同步来源可能重新导入。确定继续？`))return;
+ const epoch=state.epoch;state.batchDeleting=true;let success=0,failed=0,cleanupFailed=0;const errors=[];
+ renderNotes();
+ try {
+  for(const id of ids) {
+   if(epoch!==state.epoch||!state.authenticated)break;
+   state.deleting.add(id);
+   try {
+    const result=await api('/notes/'+encodeURIComponent(id),{method:'DELETE'});
+    success++;if(result?.attachment_cleanup_failed)cleanupFailed++;
+    state.selectedNotes.delete(id);state.notes=state.notes.filter(note=>note.id!==id);
+    if(state.note?.id===id){state.detailRequest++;state.note=null;if($('note-dialog').open)$('note-dialog').close();}
+   } catch(error) {failed++;errors.push(error.message||'请求失败');if(error.name==='SessionExpired')break;}
+   finally {state.deleting.delete(id);}
+  }
+ } finally {
+  state.batchDeleting=false;
+  if(epoch===state.epoch&&state.authenticated){
+   renderNotes();
+   $('notes-status').textContent=`当前页剩余 ${state.notes.length} 篇；刷新后更新总数和分页。`;
+   message(`批量删除结果：成功 ${success} 篇，失败 ${failed} 篇。`+(failed?'失败项仍保持选中；请求异常时结果可能已生效，请刷新确认后再试。':'')+(cleanupFailed?` ${cleanupFailed} 篇的部分附件清理失败。`:'')+(errors.length?'\n'+errors.join('\n'):''),failed>0||cleanupFailed>0);
+  }
+ }
+}
+function renderNotes() {
+ updateSelection();
+ $('notes-list').replaceChildren();
+ if(!state.notes.length)$('notes-list').append(element('p',state.search?'没有找到匹配笔记，请更换关键词。':'还没有笔记。到「数据源」添加知乎收藏夹并同步。','empty'));
+ for(const note of state.notes) {
+   const card=element('article',undefined,'card'); const title=element('button',note.title||'无标题','title-button'); title.addEventListener('click',()=>showNote(note.id));card.append(title);
+   const selection=element('label',undefined,'checkbox-label note-selection');const checkbox=element('input');checkbox.type='checkbox';checkbox.checked=state.selectedNotes.has(note.id);checkbox.disabled=state.batchDeleting||state.notesLoading;checkbox.setAttribute('aria-label','选择笔记：'+text(note.title||'无标题'));checkbox.addEventListener('change',()=>{if(state.batchDeleting||state.notesLoading)return;if(checkbox.checked)state.selectedNotes.add(note.id);else state.selectedNotes.delete(note.id);updateSelection();});selection.append(checkbox,element('span','选择此笔记'));card.append(selection);
+   card.append(element('p',`${note.source||'未知来源'} · ${note.category||'未分类'} · ${date(note.created_at)}`,'muted'));
+   card.append(element('span',aiStatus(note),'badge'));
+   card.append(element('p',contentQuality(note),'muted'));if(note.warning)card.append(element('p','说明：'+text(note.warning),'notice'));
+   card.append(element('p',note.content||'正文为空','excerpt'));
+   if(note.ai_summary)card.append(element('p','AI 摘要：'+note.ai_summary,'excerpt'));
+   const tags=element('div');for(const tag of Array.isArray(note.tags)?note.tags:[])tags.append(element('span',tag,'badge'));card.append(tags);
+   const actions=element('div',undefined,'actions');
+   const process=element('button',undefined,'primary');updateProcessButton(note,process);process.addEventListener('click',()=>processNote(note,process));
+   const remove=element('button',state.deleting.has(note.id)?'正在删除…':'永久删除笔记','danger');remove.disabled=state.batchDeleting||state.processing.has(note.id)||state.deleting.has(note.id);remove.addEventListener('click',()=>deleteNote(note,remove));
+   actions.append(process,remove);card.append(actions);$('notes-list').append(card);
+  }
+  }
+$('search-form').addEventListener('submit',event=>{event.preventDefault();if(state.batchDeleting)return;state.search=$('search').value.trim();state.page=0;loadNotes();});
+$('notes-refresh').addEventListener('click',()=>loadNotes());
+$('previous').addEventListener('click',()=>{if(!state.batchDeleting&&state.page>0){state.page--;loadNotes();}});
+$('next').addEventListener('click',()=>{if(state.batchDeleting)return;state.page++;loadNotes();});
+function updateProcessButton(note,button) {
+ button.disabled=state.batchDeleting||!text(note.content).trim() || state.processing.has(note.id) || state.deleting.has(note.id);
+ button.textContent=state.processing.has(note.id)?'AI 正在处理…':note.ai_stale?'更新旧 AI 摘要':note.ai_processed?'用 AI 重新整理此笔记':'用 AI 整理此笔记';
+}
+function renderDetail(note) {
+ state.note=note; $('detail-title').textContent=note.title||'无标题'; $('detail-meta').textContent=`${note.source||'未知来源'} · ${note.category||'未分类'} · ${date(note.created_at)}`;
+ $('detail-link').replaceChildren();addLink($('detail-link'),note.source_url||note.url,'查看来源原文 ↗');
+ $('original-details').open=false;
+ $('detail-content').textContent=note.content||'此笔记没有正文。'; $('detail-ai-status').textContent=aiStatus(note); renderSummary(note.ai_summary);
+ $('detail-quality').textContent=contentQuality(note);$('detail-warning').textContent=text(note.warning);$('detail-warning').hidden=!note.warning;renderImages(note);
+ $('detail-tags').replaceChildren();for(const tag of Array.isArray(note.tags)?note.tags:[])$('detail-tags').append(element('span',tag,'badge'));
+ $('detail-feedback').textContent=!text(note.content).trim()?'正文为空，不能发送给 AI。':'处理前会确认：正文将发送至服务器配置的模型服务。';
+}
+async function showNote(id) { const request=++state.detailRequest; try{const note=await api('/notes/'+encodeURIComponent(id));if(request!==state.detailRequest||!state.authenticated)return;renderDetail(note);if(!$('note-dialog').open)$('note-dialog').showModal();$('note-dialog').scrollTop=0;}catch(error){report(error);} }
+for(const id of ['detail-close','detail-close-bottom'])$(id).addEventListener('click',()=>$('note-dialog').close());
+async function deleteNote(note,button) {
+ if(!note || state.batchDeleting || state.processing.has(note.id) || state.deleting.has(note.id))return;
+ if(!confirm('永久删除「'+text(note.title)+'」？正文、标签及AI摘要将从数据库移除，不进入回收站；专属图片一并清理，共享图片保留。历史备份不变，再次同步来源可能重新导入。'))return;
+ state.deleting.add(note.id);button.disabled=true;renderNotes();
+ try {
+  const result=await api('/notes/'+encodeURIComponent(note.id),{method:'DELETE'});
+  if(state.note?.id===note.id){state.detailRequest++;state.note=null;if($('note-dialog').open)$('note-dialog').close();}
+  state.notes=state.notes.filter(item=>item.id!==note.id);
+  message(result?.attachment_cleanup_failed?'笔记已删除，但部分附件清理失败。':'笔记已永久删除。');
+ } catch(error){report(error);}
+ finally{state.deleting.delete(note.id);button.disabled=false;if(state.authenticated){renderNotes();await loadNotes();}}
+}
+async function processNote(note,button) {
+ if(!note || state.batchDeleting || state.processing.has(note.id) || state.deleting.has(note.id) || !text(note.content).trim())return;
+ const force=!!(note.ai_processed || note.ai_stale);
+ if(!confirm((force?'重新整理将更新已有 AI 摘要和整理结果。':'')+'将把此笔记的标题和正文发送给服务器配置的第三方 AI 模型服务，可能产生费用。是否继续？'))return;
+ state.processing.add(note.id);updateProcessButton(note,button);renderNotes();
+ try {
+  await api('/notes/'+encodeURIComponent(note.id)+'/process'+(force?'?force=true':''),{method:'POST'});
+  const updated=await api('/notes/'+encodeURIComponent(note.id));
+  state.notes=state.notes.map(item=>item.id===note.id?updated:item);
+  message(updated.ai_processed?'AI 整理已完成，列表结果已更新。':'请求已返回，但笔记尚未标记为 AI 已处理；请稍后刷新确认。');
+  if(state.note?.id===note.id){renderDetail(updated);$('detail-feedback').textContent=updated.ai_processed?'AI 处理已完成，结果已重新读取。':'请求已返回，但笔记尚未标记为 AI 已处理；请稍后刷新确认。';}
+ } catch(error){if(state.note?.id===note.id)$('detail-feedback').textContent=error.message;report(error);}
+ finally{state.processing.delete(note.id);updateProcessButton(note,button);if(state.authenticated){renderNotes();await loadNotes();}}
+}
+$('ai-test').addEventListener('click',async()=>{
+ if($('ai-test').disabled)return;$('ai-test').disabled=true;$('ai-test').textContent='正在测试…';
+ try {const result=await api('/ai/test',{method:'POST'});if(result?.status!=='success')throw new Error(result?.error||'AI 测试未成功。');message(`AI 测试成功（${result.provider||'服务器配置模型'}）。仅使用固定测试文本。\n摘要：${result.result?.summary||'未返回摘要'}`);}
+ catch(error){report(error);}finally{$('ai-test').disabled=false;$('ai-test').textContent='测试 AI 连接';}
+});
+const SOURCE_FORM_FIELDS=['source-save','source-cancel','source-name','source-url','source-auto-ai','source-sync-enabled','source-sync-interval'];
+function syncInterval(value) {return Number.isInteger(value)&&value>=60&&value<=10080?value:1440;}
+function intervalText(value) {const minutes=syncInterval(value);return ({60:'1 小时',360:'6 小时',720:'12 小时',1440:'24 小时（每天）',10080:'7 天'})[minutes]||`${minutes} 分钟`;}
+function fillSyncInterval(value) {const minutes=syncInterval(value);const select=$('source-sync-interval');select.replaceChildren();for(const n of [...new Set([60,360,720,1440,10080,minutes])].sort((a,b)=>a-b)){const option=element('option',intervalText(n));option.value=String(n);select.append(option);}select.value=String(minutes);}
+function updateSourceFormLock() {const current=state.sources.find(source=>source.id===state.editing);const locked=!!current&&(sourceLocked(current)||state.busySources.has(current.id));for(const id of SOURCE_FORM_FIELDS)$(id).disabled=state.sourceSaving||(locked&&id!=='source-cancel');}
+function resetSourceForm() {state.editing=null;$('source-form').reset();$('source-auto-ai').checked=false;$('source-sync-enabled').checked=false;fillSyncInterval(1440);updateSourceFormLock();$('source-form-title').textContent='添加知乎收藏夹';$('source-save').textContent='添加数据源';$('source-cancel').hidden=true;}
+$('source-cancel').addEventListener('click',resetSourceForm);
+function editSource(source) {if(state.sourceSaving||state.busySources.has(source.id)||sourceLocked(source))return;state.editing=source.id;$('source-name').value=source.name||'';$('source-url').value=source.collection_url||'';$('source-auto-ai').checked=!!source.auto_ai;$('source-sync-enabled').checked=!!source.sync_enabled;fillSyncInterval(source.sync_interval_minutes);updateSourceFormLock();$('source-form-title').textContent='编辑数据源';$('source-save').textContent='保存修改';$('source-cancel').hidden=false;$('source-name').focus();}
+$('source-form').addEventListener('submit',async event=>{
+ event.preventDefault();if(state.sourceSaving)return;
+ const url=safeURL($('source-url').value.trim());if(!url){message('请输入有效的 HTTP 或 HTTPS 收藏夹链接。',true);return;}
+ const parsed=new URL(url);if(!['www.zhihu.com','zhihu.com'].includes(parsed.hostname)||!/^\/collection\/\d+\/?$/.test(parsed.pathname)){message('请粘贴知乎收藏夹链接，例如 https://www.zhihu.com/collection/123456。',true);return;}
+ const interval=Number($('source-sync-interval').value);if(!Number.isInteger(interval)||interval<60||interval>10080){message('同步间隔必须为 60–10080 分钟的整数。',true);return;}
+  const editing=state.editing; const payload={name:$('source-name').value.trim()||'知乎收藏夹',collection_url:url,auto_ai:$('source-auto-ai').checked,sync_enabled:$('source-sync-enabled').checked,sync_interval_minutes:interval};if(editing===null)payload.platform='zhihu';
+ if(editing!==null){const current=state.sources.find(item=>item.id===editing);if(current&&sourceLocked(current)){message('任务进行中，请等待结束再修改；修改仅对下次同步生效。',true);return;}}
+  if(payload.auto_ai&&!state.sources.find(item=>item.id===editing)?.auto_ai&&!confirmAutoAI())return;
+  if(payload.sync_enabled&&!state.sources.find(item=>item.id===editing)?.sync_enabled&&!confirmScheduledSync(payload.auto_ai))return;
+   state.sourceSaving=true;updateSourceFormLock();
+ try {await api(editing===null?'/sources/':'/sources/'+encodeURIComponent(editing),{method:editing===null?'POST':'PATCH',body:JSON.stringify(payload)});resetSourceForm();message(editing===null?(payload.sync_enabled?'已添加数据源并启用定时同步；首次执行时间以服务器显示为准。':'已添加数据源。点击「同步并补全」开始导入。'):'已保存修改。定时安排以服务器显示为准；暂停不会取消当前任务。');await loadSources();}
+ catch(error){report(error);}finally{state.sourceSaving=false;updateSourceFormLock();renderSources();}
+});
+function taskText(task) {
+ const labels={pending:'等待执行',running:'正在同步',completed:'已完成',partial:'部分完成',failed:'失败'};
+ const lines=[`任务 #${text(task.id)} · ${labels[task.status]||'未知状态'}（${text(task.status)}）`];
+ if(active(task))lines.push('任务仍在服务器执行；未提供可靠百分比，不估算进度。');
+ for(const [key,label]of [['total_count','服务端报告总数'],['success_count','成功'],['error_count','失败']])if(Number.isFinite(task[key]))lines.push(`${label}：${task[key]}`);
+ if(task.status==='failed')lines.push('错误：'+text(task.error_message||'服务器未提供错误详情')+'；需要查看并处理，修复后再同步。');else if(task.error_message)lines.push('说明：'+text(task.error_message));return lines.join('\n');
+}
+function sourceLocked(source) {return !!source.active_task_id||active(state.tasks.get(source.active_task_id||source.last_task_id));}
+function confirmAutoAI() {return confirm('开启同步后自动 AI 总结？从下次同步起，笔记标题和正文会发送给服务器配置的第三方 AI 模型服务，可能产生费用。是否继续？');}
+async function toggleSourceAutoAI(source, checkbox) {
+ const previous=!!source.auto_ai;const enabled=checkbox.checked;
+ if(state.sourceSaving||state.busySources.has(source.id)||sourceLocked(source)){checkbox.checked=previous;return;}
+ if(enabled===previous)return;
+ if(enabled&&!confirmAutoAI()){checkbox.checked=previous;return;}
+ state.busySources.add(source.id);checkbox.disabled=true;renderSources();
+ try {
+  const updated=await api('/sources/'+encodeURIComponent(source.id),{method:'PATCH',body:JSON.stringify({auto_ai:enabled})});
+  if(!updated||!!updated.auto_ai!==enabled||updated.auto_ai==null)throw new Error('服务器未确认自动 AI 设置，请刷新确认。');
+  source.auto_ai=enabled;
+  state.sources=state.sources.map(item=>item.id===source.id?{...item,auto_ai:enabled}:item);
+  if(state.editing===source.id)$('source-auto-ai').checked=enabled;
+  message(enabled?'已开启自动 AI 总结，下次同步生效。':'已关闭自动 AI 总结，下次同步生效。');
+ } catch(error) {
+  checkbox.checked=previous;source.auto_ai=previous;
+  report(error);if(state.authenticated)await loadSources();
+ } finally {state.busySources.delete(source.id);if(state.authenticated)renderSources();}
+}
+function confirmScheduledSync(autoAI) {return confirm('启用定时同步？后端服务器运行期间将按间隔自动采集收藏夹；服务器停止时不会执行。暂停定时同步不取消当前任务。'+(autoAI?'此数据源已开启自动 AI，采集正文会发送给第三方 AI 服务，可能产生费用。':'自动 AI 当前关闭；定时同步不会替你开启 AI。若之后开启自动 AI，则可能产生第三方费用。')+'是否继续？');}
+async function toggleSourceSync(source, checkbox) {
+ const previous=!!source.sync_enabled;const enabled=checkbox.checked;
+ if(state.sourceSaving||state.busySources.has(source.id)||sourceLocked(source)){checkbox.checked=previous;return;}
+ if(enabled===previous)return;
+ if(enabled&&!confirmScheduledSync(!!source.auto_ai)){checkbox.checked=previous;return;}
+ state.busySources.add(source.id);renderSources();
+ try {
+  const updated=await api('/sources/'+encodeURIComponent(source.id),{method:'PATCH',body:JSON.stringify({sync_enabled:enabled,sync_interval_minutes:syncInterval(source.sync_interval_minutes)})});
+  if(typeof updated?.sync_enabled!=='boolean'||updated.sync_enabled!==enabled)throw new Error('服务器未确认定时同步设置，请刷新确认。');
+  state.sources=state.sources.map(item=>item.id===source.id?{...item,...updated}:item);
+  if(state.editing===source.id){$('source-sync-enabled').checked=enabled;fillSyncInterval(updated.sync_interval_minutes);}
+  message(enabled?'已启用定时同步，仅在后端服务器运行期间执行；下次时间以服务器安排为准。':'已暂停定时同步；不会取消当前任务。');
+ } catch(error){checkbox.checked=previous;report(error);if(state.authenticated)await loadSources();}
+ finally{state.busySources.delete(source.id);if(state.authenticated)renderSources();}
+}
+function renderSources() {
+ updateSourceFormLock();
+ $('sources-list').replaceChildren();if(!state.sources.length)$('sources-list').append(element('p','尚无数据源。粘贴上方收藏夹链接即可开始。','empty'));
+ for(const source of state.sources) {
+  const card=element('article',undefined,'card');card.append(element('h3',source.name||'未命名收藏夹'));card.append(element('p',`${source.platform==='zhihu'?'知乎':text(source.platform)} · 自动 AI：${source.auto_ai?'开':'关'} · 最近同步：${date(source.last_sync_at)}`,'muted'));
+  const link=element('p');addLink(link,source.collection_url);if(!link.childNodes.length)link.textContent='链接不可用';card.append(link);
+  const actions=element('div',undefined,'actions');const busy=state.busySources.has(source.id);const task=state.tasks.get(source.active_task_id||source.last_task_id);const locked=!!source.active_task_id || active(task);
+  for(const [label,handler,disabled,cls]of [['同步并补全',()=>syncSource(source),busy||locked,'primary'],['编辑',()=>editSource(source),busy||locked||state.sourceSaving,''],['删除',()=>deleteSource(source),busy||locked,'danger']]) {const button=element('button',busy&&label==='同步并补全'?'正在提交…':locked&&label==='同步并补全'?'任务进行中':label,cls);button.disabled=disabled;button.addEventListener('click',handler);actions.append(button);}card.append(actions);
+  const setting=element('div',undefined,'source-ai-setting');const label=element('label',undefined,'checkbox-label');const checkbox=element('input');checkbox.type='checkbox';checkbox.checked=!!source.auto_ai;checkbox.disabled=busy||locked||state.sourceSaving;checkbox.setAttribute('aria-label','同步后自动 AI 总结：'+text(source.name||'未命名收藏夹'));const help=element('p',locked?'任务进行中，请等待任务结束再修改；修改仅对下次同步生效。':'下次同步生效；开启将向第三方 AI 发送正文，可能产生费用。','muted');help.id='source-ai-help-'+source.id;checkbox.setAttribute('aria-describedby',help.id);checkbox.addEventListener('change',()=>toggleSourceAutoAI(source,checkbox));label.append(checkbox,element('span','同步后自动 AI 总结'));setting.append(label,help);card.append(setting);
+   const schedule=element('div',undefined,'source-sync-setting');const scheduleLabel=element('label',undefined,'checkbox-label');const scheduleSwitch=element('input');scheduleSwitch.type='checkbox';scheduleSwitch.checked=!!source.sync_enabled;scheduleSwitch.disabled=busy||locked||state.sourceSaving;scheduleSwitch.setAttribute('aria-label','定时同步：'+text(source.name||'未命名收藏夹'));scheduleSwitch.addEventListener('change',()=>toggleSourceSync(source,scheduleSwitch));scheduleLabel.append(scheduleSwitch,element('span','定时同步：'+(source.sync_enabled?'开':'关')));schedule.append(scheduleLabel,element('p',`间隔：${intervalText(source.sync_interval_minutes)} · 下次同步：${source.next_sync_at?syncDate(source.next_sync_at):source.sync_enabled?'等待服务器安排':'未安排（已暂停）'}`,'muted'),element('p',locked?'任务进行中，设置暂不可修改。暂停定时同步不取消当前任务。':'服务器运行期间执行；暂停不取消当前任务。间隔可在「编辑」中修改。','muted'));card.append(schedule);
+    if(task)card.append(element('div',taskText(task),'task'));else if(source.active_task_id||source.last_task_id)card.append(element('div',`任务 #${source.active_task_id||source.last_task_id} · 正在读取状态（可刷新重试）`,'task'));
+  $('sources-list').append(card);
+ }
+}
+async function loadSources() {
+ const request=++state.sourcesRequest; stopPolling();$('sources-status').textContent='正在加载数据源…';
+ try {const sources=await api('/sources/');if(request!==state.sourcesRequest||!state.authenticated)return;if(!Array.isArray(sources))throw new Error('数据源列表格式异常。');state.sources=sources;renderSources();$('sources-status').textContent=`共 ${sources.length} 个数据源。任务跟踪每 5 秒刷新，最多 60 轮；停止后可手动恢复。`;if(state.tab==='sources')pollTasks(state.pollGeneration,0);}
+ catch(error){if(request===state.sourcesRequest){$('sources-status').textContent='加载失败，请刷新重试。';report(error);}}
+}
+$('sources-refresh').addEventListener('click',()=>loadSources());
+async function syncSource(source) {
+ if(state.busySources.has(source.id)||source.active_task_id)return;state.busySources.add(source.id);renderSources();
+ try{const result=await api('/sources/'+encodeURIComponent(source.id)+'/sync',{method:'POST'});const task=result?.task||result;if(!task?.id)throw new Error('服务器未返回任务 ID，请刷新确认，不要重复提交。');state.tasks.set(task.id,task);source.active_task_id=task.id;source.last_task_id=task.id;message('已提交同步任务；提交不代表导入完成。');await loadSources();}
+ catch(error){report(error);await loadSources();}finally{state.busySources.delete(source.id);renderSources();}
+}
+async function deleteSource(source) {
+ if(state.busySources.has(source.id)||source.active_task_id)return;if(!confirm(`删除数据源「${source.name||'未命名收藏夹'}」？已导入的笔记会保留。`))return;
+ state.busySources.add(source.id);renderSources();try{await api('/sources/'+encodeURIComponent(source.id),{method:'DELETE'});if(state.editing===source.id)resetSourceForm();message('数据源已删除，已导入的笔记已保留。');await loadSources();}catch(error){report(error);}finally{state.busySources.delete(source.id);renderSources();}
+}
+async function pollTasks(generation,round) {
+ if(generation!==state.pollGeneration || !state.authenticated || state.tab!=='sources')return;
+ const ids=[...new Set(state.sources.map(source=>source.active_task_id || (round===0?source.last_task_id:null)).filter(Boolean))];if(!ids.length)return;
+ let errors=0;let finished=false;
+ for(const id of ids){
+  if(generation!==state.pollGeneration)return;
+  try{const task=await api('/import/'+encodeURIComponent(id));if(generation!==state.pollGeneration)return;state.tasks.set(id,task);if(!active(task)){for(const source of state.sources)if(source.active_task_id===id){source.active_task_id=null;finished=true;}}}
+  catch(error){if(error.name==='SessionExpired')return;errors++;}
+ }
+ if(generation!==state.pollGeneration)return;renderSources();
+ if(finished){try{const sources=await api('/sources/');if(generation!==state.pollGeneration)return;if(Array.isArray(sources)){state.sources=sources;renderSources();}}catch(error){if(error.name==='SessionExpired')return;errors++;}}
+ const remaining=state.sources.some(source=>source.active_task_id);
+ if(errors)$('sources-status').textContent='部分任务状态读取失败；可点击「刷新 / 恢复任务跟踪」重试。';
+ if(!remaining){if(!errors)$('sources-status').textContent='任务状态已更新。完成、部分完成和失败请以各任务结果为准。';return;}
+ if(round+1>=POLL_LIMIT){$('sources-status').textContent='已达到本次自动跟踪上限，服务器任务不会因此取消。点击「刷新 / 恢复任务跟踪」或重新进入此页继续查看。';return;}
+ state.pollTimer=setTimeout(()=>pollTasks(generation,round+1),POLL_DELAY);
+}
+function clearPairing() { $('pairing-code').textContent=''; $('pairing-expires').textContent=''; $('pairing-result').hidden=true; }
+function renderDevices() {
+ $('devices-list').replaceChildren();
+ if(!deviceState.devices.length)$('devices-list').append(element('p','暂无设备。生成配对码后，在本地助手中完成配对，再刷新查看。','empty'));
+ for(const device of deviceState.devices) {
+  const card=element('article',undefined,'card');card.append(element('h3',device.name||'未命名设备'));
+  card.append(element('p',`创建：${device.created_at?date(device.created_at):'未知'} · 最近连接：${device.last_seen?date(device.last_seen):'尚未连接'} · ${device.revoked?'已撤销':'有效'}`,'muted'));
+  const button=element('button',device.revoked?'已撤销':deviceState.revoking.has(device.id)?'正在撤销…':'撤销设备','danger');button.type='button';button.disabled=!!device.revoked||deviceState.revoking.has(device.id);button.addEventListener('click',()=>revokeDevice(device));card.append(button);$('devices-list').append(card);
+ }
+}
+async function loadDevices() {
+ if(!state.authenticated)return;
+ const request=++deviceState.request;$('devices-status').textContent='正在读取设备…';
+ try {
+  const devices=await api('/devices/');if(request!==deviceState.request||!state.authenticated)return;
+  if(!Array.isArray(devices)||devices.some(device=>!device||device.id==null||typeof device.revoked!=='boolean'))throw new Error('设备列表格式异常。');
+  deviceState.devices=devices;renderDevices();$('devices-status').textContent=`共 ${devices.length} 个设备。最近连接时间以服务器记录为准。`;
+ }catch(error){if(request===deviceState.request){deviceState.devices=[];$('devices-list').replaceChildren();$('devices-status').textContent='读取设备失败，请刷新重试。';report(error);}}
+}
+$('devices-refresh').addEventListener('click',()=>loadDevices());
+$('device-pairing-form').addEventListener('submit',async event=>{
+ event.preventDefault();if(!state.authenticated||deviceState.pairing)return;
+ const name=$('device-name').value.trim();if(!name){message('请输入设备名称。',true);return;}
+ const epoch=state.epoch;deviceState.pairing=true;$('device-pair').disabled=true;clearPairing();message('正在生成配对码…');
+ try {
+  const result=await api('/devices/pairing',{method:'POST',body:JSON.stringify({name})});if(epoch!==state.epoch||!state.authenticated)return;
+  if(typeof result?.code!=='string'||!result.code.trim()||!result.expires_at||Number.isNaN(new Date(result.expires_at).getTime()))throw new Error('服务器未返回有效配对码，请重试。');
+  $('pairing-code').textContent=result.code;$('pairing-expires').textContent='到期时间：'+date(result.expires_at)+'；10 分钟内单次有效，刷新页面即不再显示。';$('pairing-result').hidden=false;message('配对码已生成；尚未代表设备已连接，请在助手完成配对后刷新设备列表。');
+ }catch(error){if(epoch===state.epoch){clearPairing();report(error);}}
+ finally{deviceState.pairing=false;$('device-pair').disabled=false;}
+});
+async function revokeDevice(device) {
+ if(!state.authenticated||device.revoked||deviceState.revoking.has(device.id))return;
+ if(!confirm('撤销设备「'+text(device.name||'未命名设备')+'」？该设备凭证将失效，需要重新配对才能连接。'))return;
+ const epoch=state.epoch;deviceState.revoking.add(device.id);renderDevices();
+ try {
+  const result=await api('/devices/'+encodeURIComponent(device.id)+'/revoke',{method:'POST'});if(epoch!==state.epoch||!state.authenticated)return;
+  if(result?.revoked!==true)throw new Error('服务器未确认撤销，请刷新设备列表检查。');
+  device.revoked=true;deviceState.request++;message('设备已撤销，原凭证已失效。');
+ }catch(error){if(epoch===state.epoch)report(error);}
+ finally{deviceState.revoking.delete(device.id);if(epoch===state.epoch&&state.authenticated){renderDevices();await loadDevices();}}
+}
+function diskGB(bytes) {return (bytes/(1024**3)).toFixed(2)+' GB';}
+async function loadOperations() {
+ if(!state.authenticated||operationsState.busy)return;
+ const request=++operationsState.request;operationsState.busy=true;$('operations-refresh').disabled=true;$('operations-summary').replaceChildren();$('operations-status').textContent='正在读取运维状态…';
+ try {
+  const data=await api('/operations/status');
+  if(request!==operationsState.request||!state.authenticated)return;
+  if(!Number.isSafeInteger(data?.disk?.free)||data.disk.free<0||!Number.isSafeInteger(data.disk.total)||data.disk.total<0||data.disk.free>data.disk.total||!Number.isSafeInteger(data.failed_imports_count)||data.failed_imports_count<0||typeof data.backup?.running!=='boolean'||!(data.backup.last_error==null||typeof data.backup.last_error==='string'))throw new Error('Invalid operations status');
+  $('operations-summary').append(element('p',`磁盘可用 / 总量：${diskGB(data.disk.free)} / ${diskGB(data.disk.total)}`),element('p',`失败任务数：${data.failed_imports_count}`),element('p',data.backup.last_error?'最近一次备份出现错误，请检查服务器受保护日志（此处不显示内部错误）。':'暂无备份错误。'));
+  $('operations-status').textContent='运维状态已更新。';
+ } catch(error) {if(request===operationsState.request&&state.authenticated)$('operations-status').textContent='读取运维状态失败，请点击刷新重试。';}
+ finally {if(request===operationsState.request){operationsState.busy=false;$('operations-refresh').disabled=false;}}
+}
+$('operations-refresh').addEventListener('click',()=>loadOperations());
+function stopBackupPolling() {backupState.generation++;clearTimeout(backupState.timer);backupState.timer=null;}
+function setBackupSettingsDisabled(disabled) {for(const id of ['backup-enabled','backup-hour','backup-keep','backup-save'])$(id).disabled=disabled;}
+function backupError(error, fallback) {if(error.name!=='SessionExpired'&&state.authenticated)message(fallback,true);}
+function backupDate(value) {if(!value)return '暂无';const d=new Date(value);return Number.isNaN(d.getTime())?'时间未知':d.toLocaleString('zh-CN',{timeZone:'Asia/Shanghai',hour12:false})+'（北京时间）';}
+function backupPath(id) {const value=text(id);return /^[A-Za-z0-9_-]{1,160}(?![\s\S])/.test(value)?'/backups/'+encodeURIComponent(value):null;}
+function renderBackups(backups) {
+ backupState.rehearsalButtons.clear();$('backups-list').replaceChildren();if(!backups.length)$('backups-list').append(element('p','暂无备份。可以创建一次服务器备份。','empty'));
+ for(const backup of backups) {
+  if(!backup||typeof backup!=='object')continue;
+  const card=element('article',undefined,'card');card.append(element('h3',backup.filename||'未命名备份'));
+  const labels={pending:'等待执行',running:'创建中',completed:'已完成',success:'已完成',failed:'失败',ready:'可用'};
+  const status=Object.hasOwn(labels,backup.status)?labels[backup.status]:'未知';
+  card.append(element('p',`${backupDate(backup.created_at)} · 大小：${Number.isSafeInteger(backup.size)&&backup.size>=0?backup.size.toLocaleString()+' 字节':'未知'} · ${status} · ${backup.verified===true?'已校验':'未校验'}`,'muted'));
+  card.append(element('p','SHA-256：'+(/^[a-fA-F0-9]{64}$/.test(text(backup.sha256))?backup.sha256:'暂无有效校验值'),'muted'));
+  const path=backupPath(backup.id);
+  if(path) {
+   const actions=element('div',undefined,'actions');const link=element('a','下载备份');link.href=API_BASE+path+'/download';
+   const verify=element('button',backupState.verifying.has(backup.id)?'正在校验…':'校验备份');verify.type='button';verify.disabled=backupState.verifying.has(backup.id);verify.addEventListener('click',()=>verifyBackup(backup.id,verify));
+   const rehearse=element('button',backupState.rehearsing.has(backup.id)?'正在恢复预演…':'恢复预演');rehearse.type='button';rehearse.disabled=backupState.rehearsing.has(backup.id);rehearse.addEventListener('click',()=>rehearseBackup(backup.id,rehearse));backupState.rehearsalButtons.set(backup.id,rehearse);actions.append(link,verify,rehearse);card.append(actions);
+  }
+  $('backups-list').append(card);
+ }
+}
+function renderBackupSettings(settings) {
+ if(typeof settings?.enabled!=='boolean'||!Number.isInteger(settings.hour)||settings.hour<0||settings.hour>23||!Number.isInteger(settings.keep)||settings.keep<3||settings.keep>30)throw new Error('Invalid backup settings');
+ $('backup-enabled').checked=settings.enabled;$('backup-hour').value=String(settings.hour);$('backup-keep').value=String(settings.keep);
+ $('backup-schedule').textContent=`最近成功：${backupDate(settings.last_success)} · 下次计划：${settings.enabled?backupDate(settings.next_due):'已关闭'}`;
+ setBackupSettingsDisabled(backupState.saving);
+}
+function renderBackupStatus(status) {
+ if(typeof status?.running!=='boolean')throw new Error('Invalid backup status');
+ backupState.running=status.running;$('backup-create').disabled=status.running||backupState.creating;
+ $('backups-status').textContent=status.running?'服务器正在创建备份；每 5 秒查询一次，最多 60 次。':status.last_error?'最近一次备份出现错误，请检查服务器受保护日志（此处不显示内部错误）。':'服务器当前没有正在创建的备份。';
+}
+async function loadBackups() {
+ if(!state.authenticated||backupState.saving||backupState.creating)return;
+ stopBackupPolling();const request=++backupState.request;const generation=backupState.generation;
+ $('backups-status').textContent='正在读取备份…';$('backup-create').disabled=true;setBackupSettingsDisabled(true);
+ try {
+  const [backups,settings,status]=await Promise.all([api('/backups/'),api('/backups/settings'),api('/backups/status')]);
+  if(request!==backupState.request||!state.authenticated)return;
+  if(!Array.isArray(backups))throw new Error('Invalid backup list');renderBackups(backups);renderBackupSettings(settings);renderBackupStatus(status);
+  if(status.running&&generation===backupState.generation&&state.tab==='backups'&&!document.hidden)backupState.timer=setTimeout(()=>pollBackups(generation,0),POLL_DELAY);
+ } catch(error) {if(request===backupState.request){$('backups-status').textContent='读取备份失败，请刷新重试。';backupError(error,'读取备份失败，请刷新重试。');}}
+}
+async function pollBackups(generation,round) {
+ if(generation!==backupState.generation||!state.authenticated||state.tab!=='backups'||document.hidden)return;
+ backupState.timer=null;
+ try {
+  const status=await api('/backups/status');if(generation!==backupState.generation)return;renderBackupStatus(status);
+  if(!status.running){
+   const [backups,settings]=await Promise.all([api('/backups/'),api('/backups/settings')]);if(generation!==backupState.generation)return;
+   if(!Array.isArray(backups))throw new Error('Invalid backup list');renderBackups(backups);if(!backupState.saving)renderBackupSettings(settings);return;
+  }
+ } catch(error) {if(generation!==backupState.generation||error.name==='SessionExpired')return;$('backups-status').textContent='备份状态读取失败，将有限重试；可手动刷新。';}
+ if(round+1>=POLL_LIMIT){$('backups-status').textContent='已达到 60 次自动查询上限；服务器备份不会因此停止，请点击刷新继续查看。';return;}
+ backupState.timer=setTimeout(()=>pollBackups(generation,round+1),POLL_DELAY);
+}
+$('backups-refresh').addEventListener('click',()=>loadBackups());
+$('backup-create').addEventListener('click',async()=>{
+ if(!state.authenticated||backupState.creating||$('backup-create').disabled)return;
+ const epoch=state.epoch;backupState.creating=true;$('backup-create').disabled=true;stopBackupPolling();
+ try {
+  const result=await api('/backups/',{method:'POST'});if(result?.status!=='pending')throw new Error('Invalid backup creation response');
+  backupState.running=true;message('已提交服务器备份，尚未完成；完成后可校验和下载。');
+  if(state.tab==='backups'&&!document.hidden){$('backups-status').textContent='等待服务器创建备份…';backupState.timer=setTimeout(()=>pollBackups(backupState.generation,0),POLL_DELAY);}
+ } catch(error) {backupError(error,'备份提交未确认，可能已开始。请刷新状态，勿重复提交。');}
+ finally {backupState.creating=false;if(epoch===state.epoch&&state.authenticated)$('backup-create').disabled=true;}
+});
+$('backup-settings-form').addEventListener('submit',async event=>{
+ event.preventDefault();if(!state.authenticated||backupState.saving||$('backup-save').disabled)return;
+ const hour=Number($('backup-hour').value),keep=Number($('backup-keep').value);
+ if(!$('backup-hour').value.trim()||!$('backup-keep').value.trim()||!Number.isInteger(hour)||hour<0||hour>23||!Number.isInteger(keep)||keep<3||keep>30){message('小时须为 0–23 的整数，保留份数须为 3–30 的整数。',true);return;}
+ const epoch=state.epoch;backupState.saving=true;setBackupSettingsDisabled(true);stopBackupPolling();backupState.request++;
+ try {await api('/backups/settings',{method:'PATCH',body:JSON.stringify({enabled:$('backup-enabled').checked,hour,keep})});message('已保存服务器备份设置；未配置电脑自动任务。');}
+ catch(error){backupError(error,'备份设置保存未确认，请刷新检查实际设置。');}
+ finally{backupState.saving=false;if(epoch===state.epoch&&state.authenticated)await loadBackups();}
+});
+async function verifyBackup(id,button) {
+ const path=backupPath(id);if(!state.authenticated||!path||backupState.verifying.has(id))return;
+ const epoch=state.epoch;backupState.verifying.add(id);button.disabled=true;button.textContent='正在校验…';
+ try {
+  const result=await api(path+'/verify',{method:'POST'});
+  if(result?.verified!==true||!Number.isSafeInteger(result.notes_count)||result.notes_count<0||!Number.isSafeInteger(result.files_count)||result.files_count<0)throw new Error('Invalid verification response');
+  message(`备份校验通过：${result.notes_count} 篇笔记，${result.files_count} 个文件。`);button.textContent='校验通过';
+ } catch(error){button.textContent='重新校验';backupError(error,'备份校验未通过或请求失败，请刷新后重试；不要将其视为有效备份。');}
+ finally{backupState.verifying.delete(id);if(epoch===state.epoch&&state.authenticated)button.disabled=false;}
+}
+async function rehearseBackup(id,button) {
+ const path=backupPath(id);if(!state.authenticated||!path||backupState.rehearsing.has(id))return;
+ const epoch=state.epoch;backupState.rehearsing.add(id);button.disabled=true;button.textContent='正在恢复预演…';
+ try {
+  const result=await api('/operations'+path+'/rehearse',{method:'POST'});
+  if(epoch!==state.epoch||!state.authenticated)return;
+  if(result?.verified!==true||result.sqlite_sample_read!==true||result.sqlite_restore_verified!==true||result.live_data_modified!==false||!Number.isSafeInteger(result.notes_count)||result.notes_count<0||!Number.isSafeInteger(result.files_count)||result.files_count<0)throw new Error('Invalid rehearsal response');
+  message(`恢复预演通过：${result.notes_count} 篇笔记，${result.files_count} 个文件。仅在临时目录恢复备份副本并完成数据库检查，未覆盖或修改线上数据。`);button.textContent='恢复预演通过';
+ } catch(error) {if(epoch===state.epoch){button.textContent='重新恢复预演';backupError(error,'恢复预演未通过或请求失败，请刷新后重试；不能将其视为恢复成功，线上数据未执行覆盖恢复。');}}
+ finally {backupState.rehearsing.delete(id);if(epoch===state.epoch&&state.authenticated){button.disabled=false;const current=backupState.rehearsalButtons.get(id);if(current){current.disabled=false;current.textContent=button.textContent;}}}
+}
+document.addEventListener('visibilitychange',()=>{if(document.hidden){stopPolling();stopBackupPolling();}else if(state.authenticated){if(state.tab==='sources')loadSources();else if(state.tab==='backups')loadBackups();}});
+showLogin();
+enterApp().catch(error=>{if(error.name!=='SessionExpired')message('无法确认登录状态：'+error.message,true);});
+</script>
+</body>
+</html>

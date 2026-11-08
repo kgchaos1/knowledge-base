@@ -1,0 +1,23 @@
+{
+  "notes": {
+    "1": {
+      "hash": "a2518e4c15faa57f211a29d6094c45daabf7d5a7fc50180c6aac6aa551622c41",
+      "path": "笔记/pkm-1.md",
+      "revision": "864b7f4fd0afa93d47ab7a37f2dd3d64969dde61fbd3554274d8be349f61cfa9",
+      "snapshot": "32723b199d5a6620562122cadf0e5d41cc2e91c930733e0f99f314d217418a3f"
+    },
+    "2": {
+      "hash": "400a78840864a9a767dbd05ce029a1e3992a93cda689722b0635d9959c8b0664",
+      "path": "笔记/pkm-2.md",
+      "revision": "0be1adbd3f079df230aa8dc3fccf6ae269e0c7138423bfd284219d1c288ed1c2",
+      "snapshot": "32723b199d5a6620562122cadf0e5d41cc2e91c930733e0f99f314d217418a3f"
+    },
+    "3": {
+      "hash": "bab78f969831e07a88dfccdfd2432e244d9ef99f214ddcfb0aa31bebb8547c8b",
+      "path": "笔记/pkm-3.md",
+      "revision": "30c6c49fa869162493a22ba0e118c42bbf8e2208db4efa819b9a9734d49aa0b8",
+      "snapshot": "32723b199d5a6620562122cadf0e5d41cc2e91c930733e0f99f314d217418a3f"
+    }
+  },
+  "snapshot": "32723b199d5a6620562122cadf0e5d41cc2e91c930733e0f99f314d217418a3f"
+}

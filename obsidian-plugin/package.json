@@ -1,0 +1,15 @@
+{
+  "name": "pkm-obsidian-connector",
+  "version": "0.1.2",
+  "private": true,
+  "scripts": {
+    "build": "tsc --noEmit && esbuild src/main.ts --bundle --external:obsidian --platform=browser --target=es2020 --format=cjs --outfile=dist/main.js",
+    "test": "node --test test/*.test.cjs"
+  },
+  "devDependencies": {
+    "obsidian": "latest",
+    "typescript": "^5.7.0",
+    "esbuild": "^0.25.0",
+    "@types/node": "^22.0.0"
+  }
+}
